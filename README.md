@@ -78,7 +78,7 @@ Once completed:
 
 - Push your project to your GitHub repository
 - Ensure it is **publicly accessible**
-- Send the link to your contact at developers@flex.al
+- Add developers@flex.al as a collaborator
 
 ---
 
