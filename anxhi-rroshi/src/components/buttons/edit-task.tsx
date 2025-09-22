@@ -11,7 +11,6 @@ import {
 } from '@/components/ui/dialog';
 import { TaskFrom } from '../forms';
 import { useTasks } from '@/context/tasks';
-import { nanoid } from 'nanoid';
 import { useMemo, useState } from 'react';
 import { PencilIcon } from 'lucide-react';
 

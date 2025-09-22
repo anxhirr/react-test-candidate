@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker';
-import { nanoid } from 'nanoid';
 
 const range = (len: number) => {
 	const arr: number[] = [];
@@ -14,9 +13,9 @@ const newTask = (): TaskT => {
 		assignedTo: faker.person.fullName(),
 		status: faker.helpers.shuffle<TaskT['status']>(['CACELLED', 'COMPLETED', 'IN_PROGRESS', 'NEW', 'ON_HOLD'])[0]!,
 		id: faker.string.uuid(),
-		title: `title ${nanoid()}`,
-		category: `category ${nanoid()}`,
-		notes: `notes ${nanoid()}`,
+		title: `title ${faker.number.int()}`,
+		category: `category ${faker.number.int()}`,
+		notes: `notes ${faker.number.int()}`,
 	};
 };
 

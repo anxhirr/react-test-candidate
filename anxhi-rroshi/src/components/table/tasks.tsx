@@ -35,6 +35,9 @@ import jsPDF from 'jspdf';
 import * as jsPDFAutotable from 'jspdf-autotable';
 import { DeleteTaskBtn, EditTaskBtn, NewTaskBtn } from '../buttons';
 import { useTasks } from '@/context/tasks';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
+import { Button } from '../ui/button';
+import { GripIcon } from 'lucide-react';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -43,9 +46,9 @@ const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
 	});
 	return (
 		// Alternatively, you could set these attributes on the rows themselves
-		<button {...attributes} {...listeners}>
-			🟰
-		</button>
+		<Button variant="ghost" {...attributes} {...listeners}>
+			<GripIcon />
+		</Button>
 	);
 };
 
@@ -64,13 +67,13 @@ const DraggableRow = ({ row }: { row: Row<TaskT> }) => {
 	};
 	return (
 		// connect row ref to dnd-kit, apply important styles
-		<tr ref={setNodeRef} style={style}>
+		<TableRow ref={setNodeRef} style={style}>
 			{row.getVisibleCells().map((cell) => (
-				<td key={cell.id} style={{ width: cell.column.getSize() }}>
+				<TableCell key={cell.id} style={{ width: cell.column.getSize() }}>
 					{flexRender(cell.column.columnDef.cell, cell.getContext())}
-				</td>
+				</TableCell>
 			))}
-		</tr>
+		</TableRow>
 	);
 };
 
@@ -88,7 +91,6 @@ const columns: ColumnDef<TaskT>[] = [
 	// Create a dedicated drag handle column. Alternatively, you could just set up dnd events on the rows themselves.
 	{
 		id: 'drag-handle',
-		header: 'Move',
 		cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
 		size: 60,
 	},
@@ -127,14 +129,14 @@ function TasksTable() {
 	const status = useStatusParam();
 	const { tasks, swap } = useTasks();
 
+	const dataIds = React.useMemo<UniqueIdentifier[]>(() => tasks.map(({ id }) => id), [tasks]);
+
 	const filteredTasks = useMemo(() => {
 		return tasks.filter((d) => {
 			const statusMatches = d.status === status;
 			return statusMatches;
 		});
 	}, [status, tasks]);
-
-	const dataIds = React.useMemo<UniqueIdentifier[]>(() => filteredTasks?.map(({ id }) => id), [filteredTasks]);
 
 	const [globalFilter, setGlobalFilter] = useState('');
 
@@ -204,28 +206,28 @@ function TasksTable() {
 				/>
 				<button onClick={handleExportPdf}>Export to PDF</button>
 				<NewTaskBtn />
-				<table>
-					<thead>
+				<Table>
+					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
-							<tr key={headerGroup.id}>
+							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => (
-									<th key={header.id} colSpan={header.colSpan}>
+									<TableHead key={header.id} colSpan={header.colSpan}>
 										{header.isPlaceholder
 											? null
 											: flexRender(header.column.columnDef.header, header.getContext())}
-									</th>
+									</TableHead>
 								))}
-							</tr>
+							</TableRow>
 						))}
-					</thead>
-					<tbody>
+					</TableHeader>
+					<TableBody>
 						<SortableContext items={dataIds} strategy={verticalListSortingStrategy}>
 							{table.getRowModel().rows.map((row) => (
 								<DraggableRow key={row.id} row={row} />
 							))}
 						</SortableContext>
-					</tbody>
-				</table>
+					</TableBody>
+				</Table>
 			</div>
 		</DndContext>
 	);
