@@ -91,26 +91,3 @@ clearly in your README.
 ---
 
 Looking forward to seeing your code! Good luck 🚀
-
-# Question Response
-
-## How might you make this app more secure?
-
-To make the app more secure I would implement the following:
-
--   Authentication
--   Role-based access control
--   Rate limiting
--   Data validation server-side
--   Replace dummy data with a real database
-
-## How would you make this solution scale to millions of records?
-
-To make the app scale to milions of records I would implement the following:
-
--   Server side pagination
--   Cache System
--   Index frequently queried columns
--   Database partitioning
--   Archive old records
--   Debounce search input
