@@ -101,6 +101,9 @@ const columns: ColumnDef<TaskT>[] = [
 	{
 		accessorKey: 'id',
 		header: 'Id',
+		cell: (table) => {
+			return table.row.index;
+		},
 	},
 	{
 		accessorKey: 'title',
