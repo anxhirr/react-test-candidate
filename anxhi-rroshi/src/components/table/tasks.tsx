@@ -105,8 +105,8 @@ const columns: ColumnDef<TaskT>[] = [
 		header: 'ID',
 	},
 	{
-		accessorKey: 'number',
-		header: 'ID',
+		accessorKey: 'taskNo',
+		header: 'Id',
 	},
 	{
 		accessorKey: 'title',
