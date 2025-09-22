@@ -5,10 +5,12 @@ import {
 	CellContext,
 	ColumnDef,
 	Row,
+	SortingState,
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
 	getPaginationRowModel,
+	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
 
@@ -38,11 +40,12 @@ import { DeleteTaskBtn, EditTaskBtn, NewTaskBtn } from '../buttons';
 import { useTasks } from '@/context/tasks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Button } from '../ui/button';
-import { FileDown, FileDownIcon, GripIcon } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronsUpDown, FileDown, FileDownIcon, GripIcon } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { statusToColor } from '@/lib/colors';
 import { statusToLabel } from '@/lib/labels';
 import { DataTablePagination } from '../ui/data-table-pagination';
+import { DataTableColumnHeader } from '../ui/data-table-column-header';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -180,6 +183,7 @@ function TasksTable() {
 		getCoreRowModel: getCoreRowModel(),
 		getPaginationRowModel: getPaginationRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
+		getSortedRowModel: getSortedRowModel(),
 		getRowId: (row) => row.id, //required because row indexes will change
 		state: {
 			globalFilter,
@@ -257,10 +261,23 @@ function TasksTable() {
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
 								{headerGroup.headers.map((header) => (
-									<TableHead key={header.id} colSpan={header.colSpan}>
-										{header.isPlaceholder
-											? null
-											: flexRender(header.column.columnDef.header, header.getContext())}
+									<TableHead
+										key={header.id}
+										colSpan={header.colSpan}
+										onClick={header.column.getToggleSortingHandler()}
+									>
+										<Button className="flex items-center gap-2" variant="ghost">
+											{header.isPlaceholder
+												? null
+												: flexRender(header.column.columnDef.header, header.getContext())}
+											{header.column.getIsSorted() === 'desc' ? (
+												<ArrowDown size={15} />
+											) : header.column.getIsSorted() === 'asc' ? (
+												<ArrowUp />
+											) : (
+												<ChevronsUpDown size={15} />
+											)}
+										</Button>
 									</TableHead>
 								))}
 							</TableRow>
