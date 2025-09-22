@@ -38,6 +38,9 @@ import { useTasks } from '@/context/tasks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Button } from '../ui/button';
 import { FileDown, FileDownIcon, GripIcon } from 'lucide-react';
+import { Badge } from '../ui/badge';
+import { statusToColor } from '@/lib/colors';
+import { statusToLabel } from '@/lib/labels';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -114,6 +117,18 @@ const columns: ColumnDef<TaskT>[] = [
 	{
 		accessorKey: 'status',
 		header: 'Status',
+		cell: ({ row }) => {
+			const status = row.getValue('status') as TaskT['status'];
+			return (
+				<Badge
+					style={{
+						backgroundColor: statusToColor(status),
+					}}
+				>
+					{statusToLabel(status)}
+				</Badge>
+			);
+		},
 	},
 	{
 		accessorKey: 'notes',

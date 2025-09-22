@@ -6,6 +6,8 @@ import { useStatusParam } from '@/hooks/use-status-param';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
+import { statusToColor } from '@/lib/colors';
+import { statusToLabel } from '@/lib/labels';
 
 const STATUS_LIST: TaskT['status'][] = ['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELLED', 'COMPLETED'];
 
@@ -21,6 +23,8 @@ const StatusTabs = () => {
 					return statusMatches;
 				});
 				const isActive = statusParam === status;
+
+				const color = statusToColor(status);
 				return (
 					<Button
 						key={status}
@@ -28,8 +32,15 @@ const StatusTabs = () => {
 							router.push(isActive ? '/' : `?status=${status}`);
 						}}
 						variant={isActive ? 'default' : 'outline'}
+						className="flex-col h-32 w-60 text-white hover:text-white"
+						style={{
+							color: isActive ? undefined : color,
+							borderColor: color,
+							backgroundColor: isActive ? color : undefined,
+						}}
 					>
-						{status} ( {filteredTasks.length} )
+						<span>{filteredTasks.length}</span>
+						<span>{statusToLabel(status)}</span>
 					</Button>
 				);
 			})}
