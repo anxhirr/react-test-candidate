@@ -1,7 +1,15 @@
 'use client';
 
 import React, { CSSProperties, useMemo, useState } from 'react';
-import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
+import {
+	CellContext,
+	ColumnDef,
+	Row,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	useReactTable,
+} from '@tanstack/react-table';
 
 // needed for table body level scope DnD setup
 import {
@@ -25,7 +33,7 @@ import { useStatusParam } from '@/hooks/use-status-param';
 import { Input } from '../ui/input';
 import jsPDF from 'jspdf';
 import * as jsPDFAutotable from 'jspdf-autotable';
-import { NewTaskBtn } from '../buttons';
+import { DeleteTaskBtn, NewTaskBtn } from '../buttons';
 import { useTasks } from '@/context/tasks';
 
 // Cell Component
@@ -66,6 +74,16 @@ const DraggableRow = ({ row }: { row: Row<TaskT> }) => {
 	);
 };
 
+const Actions = (props: CellContext<TaskT, unknown>) => {
+	const id = props.row.getValue('id') as string; // TODO: is there a better way to get the id?
+	console.log('id', id);
+	return (
+		<>
+			<DeleteTaskBtn id={id} />
+		</>
+	);
+};
+
 const columns: ColumnDef<TaskT>[] = [
 	// Create a dedicated drag handle column. Alternatively, you could just set up dnd events on the rows themselves.
 	{
@@ -97,6 +115,10 @@ const columns: ColumnDef<TaskT>[] = [
 	{
 		accessorKey: 'notes',
 		header: 'Notes',
+	},
+	{
+		id: 'actions',
+		cell: Actions,
 	},
 ];
 

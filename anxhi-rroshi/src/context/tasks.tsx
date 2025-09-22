@@ -8,12 +8,14 @@ type ContextT = {
 	tasks: TaskT[];
 	addTask: (data: TaskT) => void;
 	swap: (data: { oldIdx: number; newIdx: number }) => void;
+	deleteTask: (id: string) => void;
 };
 
 const DEFAULT_VALUES: ContextT = {
 	tasks: makeTaskData(20),
 	addTask: () => {},
 	swap: () => {},
+	deleteTask: () => {},
 };
 
 const Context = createContext<ContextT>(DEFAULT_VALUES);
@@ -35,12 +37,17 @@ const TasksProvider = (props: PropsWithChildren) => {
 			return arrayMove(prev, oldIdx, newIdx);
 		});
 	};
+
+	const deleteTask: ContextT['deleteTask'] = (id) => {
+		setTasks((prev) => prev.filter((p) => p.id !== id));
+	};
 	return (
 		<Context.Provider
 			value={{
 				tasks,
 				addTask,
 				swap,
+				deleteTask,
 			}}
 		>
 			{props.children}
