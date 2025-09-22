@@ -113,3 +113,4 @@ To make the app scale to milions of records I would implement the following:
 -   Index frequently queried columns
 -   Database partitioning
 -   Archive old records
+-   Debounce search input
