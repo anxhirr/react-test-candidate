@@ -27,7 +27,7 @@ const NewTaskBtn = () => {
 						<PlusIcon />
 					</Button>
 				</DialogTrigger>
-				<DialogContent>
+				<DialogContent className="sm:max-w-3xl">
 					<DialogHeader>
 						<DialogTitle>New task</DialogTitle>
 						<DialogDescription>Create your Task here</DialogDescription>

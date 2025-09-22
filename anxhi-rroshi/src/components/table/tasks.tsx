@@ -101,6 +101,10 @@ const columns: ColumnDef<TaskT>[] = [
 		size: 60,
 	},
 	{
+		accessorKey: 'id',
+		header: 'ID',
+	},
+	{
 		accessorKey: 'number',
 		header: 'ID',
 	},
@@ -180,6 +184,9 @@ function TasksTable() {
 		state: {
 			globalFilter,
 			pagination,
+			columnVisibility: {
+				id: false,
+			},
 		},
 		onPaginationChange: setPagination,
 		autoResetPageIndex: false,

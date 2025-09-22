@@ -1,6 +1,6 @@
 type TaskT = {
 	id: string;
-	number: number;
+	taskNo: number;
 	title: string;
 	category: string;
 	assignedTo: string;

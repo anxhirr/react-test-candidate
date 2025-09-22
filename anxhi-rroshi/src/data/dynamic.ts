@@ -16,7 +16,7 @@ const newTask = (): TaskT => {
 		title: `title ${faker.number.int()}`,
 		category: `category ${faker.number.int()}`,
 		notes: `notes ${faker.number.int()}`,
-		number: faker.number.int(),
+		taskNo: faker.number.int(),
 	};
 };
 
