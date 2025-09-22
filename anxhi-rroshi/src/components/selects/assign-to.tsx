@@ -13,7 +13,11 @@ const AssignToSelect = ({ onValueChange, value }: { onValueChange: (value: strin
 			</SelectTrigger>
 			<SelectContent>
 				{DUMMY_TASKS.map((dummyData) => {
-					return <SelectItem value={dummyData.assignedTo}>{dummyData.assignedTo}</SelectItem>;
+					return (
+						<SelectItem key={dummyData.assignedTo} value={dummyData.assignedTo}>
+							{dummyData.assignedTo}
+						</SelectItem>
+					);
 				})}
 			</SelectContent>
 		</Select>

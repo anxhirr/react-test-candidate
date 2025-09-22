@@ -13,7 +13,11 @@ const CategorySelect = ({ onValueChange, value }: { onValueChange: (value: strin
 			</SelectTrigger>
 			<SelectContent>
 				{DUMMY_TASKS.map((dummyData) => {
-					return <SelectItem value={dummyData.category}>{dummyData.category}</SelectItem>;
+					return (
+						<SelectItem key={dummyData.category} value={dummyData.category}>
+							{dummyData.category}
+						</SelectItem>
+					);
 				})}
 			</SelectContent>
 		</Select>
