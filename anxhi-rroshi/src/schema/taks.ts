@@ -3,6 +3,7 @@ import z from 'zod';
 
 const taskSchema = z.object({
 	id: z.uuid(),
+	number: z.number(),
 	title: z.string().min(1),
 	category: z.string().min(1),
 	assignedTo: z.string().min(1),
