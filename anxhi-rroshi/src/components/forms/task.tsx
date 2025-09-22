@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { AssignToSelect, CategorySelect, StatusSelect } from '../selects';
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const formSchema = taskSchema.omit({ id: true });
 
@@ -99,7 +101,7 @@ const TaskFrom = ({ defaultValues, onValid }: Props) => {
 						<FormItem>
 							<FormLabel>Notes</FormLabel>
 							<FormControl>
-								<Input placeholder="Enter notes" {...field} />
+								<ReactQuill theme="snow" value={field.value} onChange={field.onChange} />
 							</FormControl>
 							<FormMessage />
 						</FormItem>
