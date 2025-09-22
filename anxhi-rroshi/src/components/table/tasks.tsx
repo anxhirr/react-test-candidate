@@ -126,24 +126,21 @@ const columns: ColumnDef<TaskT>[] = [
 	},
 ];
 
-// Table Component
 function TasksTable() {
-	const status = useStatusParam();
+	const statusParam = useStatusParam();
 	const { tasks, swap } = useTasks();
 
 	const dataIds = React.useMemo<UniqueIdentifier[]>(() => tasks.map(({ id }) => id), [tasks]);
 
-	const filteredTasks = useMemo(() => {
-		return tasks.filter((d) => {
-			const statusMatches = d.status === status;
-			return statusMatches;
-		});
-	}, [status, tasks]);
+	const data = useMemo(() => {
+		if (!statusParam) return tasks;
+		return tasks.filter((d) => d.status === statusParam);
+	}, [statusParam, tasks]);
 
 	const [globalFilter, setGlobalFilter] = useState('');
 
 	const table = useReactTable({
-		data: filteredTasks,
+		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),

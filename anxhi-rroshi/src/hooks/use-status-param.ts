@@ -1,10 +1,10 @@
 import { useSearchParams } from 'next/navigation';
 
-const useStatusParam = (): TaskT['status'] => {
+const useStatusParam = () => {
 	const searchParams = useSearchParams();
 	const statusParam = searchParams.get('status') as TaskT['status'] | null;
 
-	return statusParam || 'NEW';
+	return statusParam;
 };
 
 export { useStatusParam };

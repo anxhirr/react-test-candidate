@@ -27,7 +27,7 @@ const TaskFrom = ({ defaultValues, onValid }: Props) => {
 			assignedTo: '',
 			category: '',
 			notes: '',
-			status, // match the current active tab
+			status: status || 'NEW', // match the current active tab
 			title: '',
 			...defaultValues,
 		},
