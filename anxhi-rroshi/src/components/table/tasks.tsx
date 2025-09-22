@@ -209,7 +209,9 @@ function TasksTable() {
 		const doc = new jsPDF();
 
 		// Prepare data for AutoTable (example: array of arrays)
-		const tableData = table.getRowModel().rows.map((row) => row.getVisibleCells().map((cell) => cell.getValue()));
+		const tableData = table
+			.getPrePaginationRowModel()
+			.rows.map((row) => row.getVisibleCells().map((cell) => cell.getValue()));
 
 		// Prepare headers for AutoTable (example: array of strings)
 		const headerRows = table
