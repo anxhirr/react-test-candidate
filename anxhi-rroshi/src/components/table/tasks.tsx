@@ -24,6 +24,8 @@ import { CSS } from '@dnd-kit/utilities';
 import { makeTaskData } from './makeData';
 import { useStatusParam } from '@/hooks/use-status-param';
 import { Input } from '../ui/input';
+import jsPDF from 'jspdf';
+import * as jsPDFAutotable from 'jspdf-autotable';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -73,21 +75,27 @@ const columns: ColumnDef<TaskT>[] = [
 	},
 	{
 		accessorKey: 'id',
+		header: 'Id',
 	},
 	{
 		accessorKey: 'title',
+		header: 'Title',
 	},
 	{
 		accessorKey: 'category',
+		header: 'Category',
 	},
 	{
 		accessorKey: 'assignedTo',
+		header: 'AssignedTo',
 	},
 	{
 		accessorKey: 'status',
+		header: 'Status',
 	},
 	{
 		accessorKey: 'notes',
+		header: 'Notes',
 	},
 ];
 
@@ -130,6 +138,31 @@ function TasksTable() {
 		}
 	}
 
+	const handleExportPdf = () => {
+		const doc = new jsPDF();
+
+		// Prepare data for AutoTable (example: array of arrays)
+		const tableData = table.getRowModel().rows.map((row) => row.getVisibleCells().map((cell) => cell.getValue()));
+
+		// Prepare headers for AutoTable (example: array of strings)
+		const headerRows = table
+			.getHeaderGroups()
+			.map((headerGroup) =>
+				headerGroup.headers.map((header) => flexRender(header.column.columnDef.header, header.getContext()))
+			);
+
+		jsPDFAutotable.autoTable(doc, {
+			// TODO: This is working but fix the ts issues.
+			// @ts-ignore
+			head: headerRows,
+			// @ts-ignore
+			body: tableData,
+		});
+
+		// Save the PDF
+		doc.save('tanstack-table.pdf');
+	};
+
 	const sensors = useSensors(useSensor(MouseSensor, {}), useSensor(TouchSensor, {}), useSensor(KeyboardSensor, {}));
 
 	return (
@@ -148,6 +181,8 @@ function TasksTable() {
 					onChange={(e) => setGlobalFilter(e.target.value)}
 					placeholder="Search all columns..."
 				/>
+				<button onClick={handleExportPdf}>Export to PDF</button>
+
 				<table>
 					<thead>
 						{table.getHeaderGroups().map((headerGroup) => (
