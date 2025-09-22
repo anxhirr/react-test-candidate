@@ -37,7 +37,7 @@ const StatusTabs = () => {
 							backgroundColor: isActive ? color : undefined,
 						}}
 					>
-						<span>{filteredTasks.length}</span>
+						<span className="text-4xl">{filteredTasks.length}</span>
 						<span>{statusToLabel(status)}</span>
 					</Button>
 				);

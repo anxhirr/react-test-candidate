@@ -40,7 +40,7 @@ import { DeleteTaskBtn, EditTaskBtn, NewTaskBtn } from '../buttons';
 import { useTasks } from '@/context/tasks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Button } from '../ui/button';
-import { ArrowDown, ArrowUp, ChevronsUpDown, FileDown, FileDownIcon, GripIcon } from 'lucide-react';
+import { ArrowDown, ArrowUp, ChevronsUpDown, FileDown, FileDownIcon, GripIcon, SearchIcon } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { statusToColor } from '@/lib/colors';
 import { statusToLabel } from '@/lib/labels';
@@ -112,7 +112,7 @@ const columns: ColumnDef<TaskT>[] = [
 	},
 	{
 		accessorKey: 'title',
-		header: 'Title',
+		header: 'Task Title',
 	},
 	{
 		accessorKey: 'category',
@@ -120,7 +120,7 @@ const columns: ColumnDef<TaskT>[] = [
 	},
 	{
 		accessorKey: 'assignedTo',
-		header: 'AssignedTo',
+		header: 'Assigned To',
 	},
 	{
 		accessorKey: 'status',
@@ -241,16 +241,18 @@ function TasksTable() {
 			sensors={sensors}
 		>
 			<div className="p-2">
-				<div className="flex gap-3">
-					<Input
-						type="text"
-						value={globalFilter ?? ''}
-						onChange={(e) => setGlobalFilter(e.target.value)}
-						placeholder="Search..."
-						className="flex-1"
-					/>
-					<Button onClick={handleExportPdf} variant="secondary" className="text-white">
-						Export to PDF
+				<div className="flex gap-3 mb-3">
+					<div className="relative w-full flex-1">
+						<SearchIcon className="absolute left-2 top-[50%] translate-y-[-50%]" size={15} />
+						<Input
+							type="text"
+							value={globalFilter ?? ''}
+							onChange={(e) => setGlobalFilter(e.target.value)}
+							placeholder="Search..."
+							className="max-w-md ps-8"
+						/>
+					</div>
+					<Button onClick={handleExportPdf} size="icon" variant="secondary" className="text-white">
 						<FileDownIcon />
 					</Button>
 					<NewTaskBtn />

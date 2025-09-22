@@ -31,10 +31,13 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 						<PencilIcon />
 					</Button>
 				</DialogTrigger>
-				<DialogContent className="sm:max-w-3xl">
+				<DialogContent className="sm:max-w-5xl">
 					<DialogHeader>
 						<DialogTitle>Edit task</DialogTitle>
-						<DialogDescription>Update your Task here</DialogDescription>
+						<DialogDescription>
+							Here you're editing a task, please be careful while making changes and click "Save Changes"
+							to proceed.
+						</DialogDescription>
 					</DialogHeader>
 					<TaskFrom
 						onClose={() => setIsOpen(false)}

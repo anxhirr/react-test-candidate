@@ -13,7 +13,7 @@ import { TaskFrom } from '../forms';
 import { useTasks } from '@/context/tasks';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
-import { PlusIcon } from 'lucide-react';
+import { InfoIcon, PlusIcon } from 'lucide-react';
 
 const NewTaskBtn = () => {
 	const { addTask } = useTasks();
@@ -23,14 +23,18 @@ const NewTaskBtn = () => {
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
 				<DialogTrigger>
 					<Button>
-						Create new task
+						Create New
 						<PlusIcon />
 					</Button>
 				</DialogTrigger>
-				<DialogContent className="sm:max-w-3xl">
+				<DialogContent className="sm:max-w-5xl">
 					<DialogHeader>
 						<DialogTitle>New task</DialogTitle>
-						<DialogDescription>Create your Task here</DialogDescription>
+						<DialogDescription className="flex items-center gap-2">
+							<InfoIcon size={15} />
+							Here you're creating a new task, please be careful while filling the information below, make
+							sure to select a status!
+						</DialogDescription>
 					</DialogHeader>
 					<TaskFrom
 						onClose={() => setIsOpen(false)}

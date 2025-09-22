@@ -45,7 +45,6 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 					name="status"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Status</FormLabel>
 							<FormControl>
 								<StatusSelect onValueChange={field.onChange} value={field.value} />
 							</FormControl>
@@ -60,9 +59,9 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 						name="title"
 						render={({ field }) => (
 							<FormItem>
-								<FormLabel>Title</FormLabel>
+								<FormLabel>Task Title</FormLabel>
 								<FormControl>
-									<Input placeholder="Enter title" {...field} />
+									<Input placeholder="Enter name..." {...field} />
 								</FormControl>
 								<FormMessage />
 							</FormItem>
@@ -105,7 +104,12 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 						<FormItem className="mb-16">
 							<FormLabel>Notes</FormLabel>
 							<FormControl>
-								<ReactQuill theme="snow" value={field.value} onChange={field.onChange} />
+								<ReactQuill
+									theme="snow"
+									value={field.value}
+									onChange={field.onChange}
+									placeholder="You can leave a note here"
+								/>
 							</FormControl>
 							<FormMessage />
 						</FormItem>
@@ -114,12 +118,12 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 
 				<div className="flex justify-between">
 					<Button type="button" variant="destructive" onClick={() => onClose()}>
-						Close and dont save
+						Close & Don't Save
 						<XIcon />
 					</Button>
 
 					<Button type="submit">
-						Save
+						Save Changes
 						<CheckIcon />
 					</Button>
 				</div>
