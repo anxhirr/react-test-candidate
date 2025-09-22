@@ -35,7 +35,6 @@ const NewTaskBtn = () => {
 					<TaskFrom
 						defaultValues={null}
 						onValid={(values) => {
-							console.log('values', values);
 							addTask({
 								...values,
 								id: nanoid(),

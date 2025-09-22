@@ -38,7 +38,6 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 					<TaskFrom
 						defaultValues={data}
 						onValid={(values) => {
-							console.log('values', values);
 							updateTask({
 								...values,
 								id: data?.id,

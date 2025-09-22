@@ -24,15 +24,12 @@ const Context = createContext<ContextT>(DEFAULT_VALUES);
 
 const TasksProvider = (props: PropsWithChildren) => {
 	const [tasks, setTasks] = useState(DEFAULT_VALUES.tasks);
-	console.log(tasks);
 
 	const addTask = (data: TaskT) => {
-		console.log('data', data);
 		setTasks((prev) => [...prev, data]);
 	};
 
 	const updateTask = (data: TaskT) => {
-		console.log('data', data);
 		setTasks((prev) =>
 			prev.map((task) => {
 				const found = task.id === data.id;
@@ -48,9 +45,6 @@ const TasksProvider = (props: PropsWithChildren) => {
 	};
 
 	const swap: ContextT['swap'] = ({ newIdx, oldIdx }) => {
-		console.log('newIdx', newIdx);
-		console.log('oldIdx', oldIdx);
-
 		setTasks((prev) => {
 			// TODO: dont depent on dnd kit lib, use js
 			return arrayMove(prev, oldIdx, newIdx);
