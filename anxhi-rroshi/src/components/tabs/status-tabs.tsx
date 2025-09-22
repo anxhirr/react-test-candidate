@@ -8,7 +8,11 @@ const StatusTabs = () => {
 			<Tabs defaultValue="account">
 				<TabsList>
 					{STATUS_LIST.map((status) => {
-						return <TabsTrigger value={status}>{status}</TabsTrigger>;
+						return (
+							<TabsTrigger key={status} value={status}>
+								{status}
+							</TabsTrigger>
+						);
 					})}
 				</TabsList>
 			</Tabs>
