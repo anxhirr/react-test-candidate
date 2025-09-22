@@ -9,9 +9,11 @@ import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { AssignToSelect, CategorySelect, StatusSelect } from '../selects';
-import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 import { CheckIcon, XIcon } from 'lucide-react';
+import dynamic from 'next/dynamic';
+
+const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
 const formSchema = taskSchema.omit({ id: true });
 

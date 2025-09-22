@@ -21,7 +21,7 @@ const NewTaskBtn = () => {
 	return (
 		<>
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
-				<DialogTrigger>
+				<DialogTrigger asChild>
 					<Button>
 						Create New
 						<PlusIcon />
