@@ -23,8 +23,8 @@ const NewTaskBtn = () => {
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
 				<DialogTrigger>
 					<Button>
-						<PlusIcon />
 						Create new task
+						<PlusIcon />
 					</Button>
 				</DialogTrigger>
 				<DialogContent>

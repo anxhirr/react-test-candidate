@@ -26,9 +26,9 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 		<>
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
 				<DialogTrigger>
-					<Button>
-						<PencilIcon />
+					<Button variant="secondary" className="text-white">
 						Edit
+						<PencilIcon />
 					</Button>
 				</DialogTrigger>
 				<DialogContent>

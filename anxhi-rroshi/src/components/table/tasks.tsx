@@ -222,9 +222,9 @@ function TasksTable() {
 						placeholder="Search..."
 						className="flex-1"
 					/>
-					<Button onClick={handleExportPdf} variant="secondary">
-						<FileDownIcon />
+					<Button onClick={handleExportPdf} variant="secondary" className="text-white">
 						Export to PDF
+						<FileDownIcon />
 					</Button>
 					<NewTaskBtn />
 				</div>
