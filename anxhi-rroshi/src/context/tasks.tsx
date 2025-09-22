@@ -1,6 +1,6 @@
 'use client';
 
-import { makeTaskData } from '@/data/tasks';
+import { DUMMY_TASKS } from '@/data/dummy';
 import { arrayMove } from '@dnd-kit/sortable';
 import { createContext, PropsWithChildren, useContext, useState } from 'react';
 
@@ -13,7 +13,7 @@ type ContextT = {
 };
 
 const DEFAULT_VALUES: ContextT = {
-	tasks: makeTaskData(20),
+	tasks: DUMMY_TASKS,
 	addTask: () => {},
 	updateTask: () => {},
 	swap: () => {},
@@ -24,6 +24,7 @@ const Context = createContext<ContextT>(DEFAULT_VALUES);
 
 const TasksProvider = (props: PropsWithChildren) => {
 	const [tasks, setTasks] = useState(DEFAULT_VALUES.tasks);
+	console.log(tasks);
 
 	const addTask = (data: TaskT) => {
 		console.log('data', data);
