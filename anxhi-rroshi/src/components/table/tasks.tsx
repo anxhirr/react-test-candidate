@@ -45,7 +45,6 @@ import { Badge } from '../ui/badge';
 import { statusToColor } from '@/lib/colors';
 import { statusToLabel } from '@/lib/labels';
 import { DataTablePagination } from '../ui/data-table-pagination';
-import { DataTableColumnHeader } from '../ui/data-table-column-header';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -260,26 +259,36 @@ function TasksTable() {
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
 							<TableRow key={headerGroup.id}>
-								{headerGroup.headers.map((header) => (
-									<TableHead
-										key={header.id}
-										colSpan={header.colSpan}
-										onClick={header.column.getToggleSortingHandler()}
-									>
-										<Button className="flex items-center gap-2" variant="ghost">
-											{header.isPlaceholder
-												? null
-												: flexRender(header.column.columnDef.header, header.getContext())}
-											{header.column.getIsSorted() === 'desc' ? (
-												<ArrowDown size={15} />
-											) : header.column.getIsSorted() === 'asc' ? (
-												<ArrowUp />
-											) : (
-												<ChevronsUpDown size={15} />
-											)}
-										</Button>
-									</TableHead>
-								))}
+								{headerGroup.headers.map((header) => {
+									const { column } = header;
+									return (
+										<TableHead
+											key={header.id}
+											colSpan={header.colSpan}
+											onClick={column.getToggleSortingHandler()}
+											className="px-0"
+										>
+											<Button
+												className="flex items-center gap-2 w-full justify-start"
+												variant="ghost"
+											>
+												{header.isPlaceholder
+													? null
+													: flexRender(column.columnDef.header, header.getContext())}
+
+												{column.getCanSort() ? (
+													column.getIsSorted() === 'desc' ? (
+														<ArrowDown size={15} />
+													) : column.getIsSorted() === 'asc' ? (
+														<ArrowUp />
+													) : (
+														<ChevronsUpDown size={15} />
+													)
+												) : null}
+											</Button>
+										</TableHead>
+									);
+								})}
 							</TableRow>
 						))}
 					</TableHeader>
