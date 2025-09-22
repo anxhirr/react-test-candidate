@@ -8,6 +8,7 @@ import {
 	flexRender,
 	getCoreRowModel,
 	getFilteredRowModel,
+	getPaginationRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
 
@@ -41,6 +42,7 @@ import { FileDown, FileDownIcon, GripIcon } from 'lucide-react';
 import { Badge } from '../ui/badge';
 import { statusToColor } from '@/lib/colors';
 import { statusToLabel } from '@/lib/labels';
+import { DataTablePagination } from '../ui/data-table-pagination';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -166,16 +168,24 @@ function TasksTable() {
 	}, [statusParam, tasks]);
 
 	const [globalFilter, setGlobalFilter] = useState('');
+	const [pagination, setPagination] = useState({
+		pageIndex: 0, // Initial page index
+		pageSize: 10, // Initial page size
+	});
 
 	const table = useReactTable({
 		data,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		getPaginationRowModel: getPaginationRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
 		getRowId: (row) => row.id, //required because row indexes will change
 		state: {
 			globalFilter,
+			pagination,
 		},
+		onPaginationChange: setPagination,
+		autoResetPageIndex: false,
 	});
 
 	// reorder rows after drag & drop
@@ -261,6 +271,8 @@ function TasksTable() {
 					</TableBody>
 				</Table>
 			</div>
+
+			<DataTablePagination table={table} />
 		</DndContext>
 	);
 }
