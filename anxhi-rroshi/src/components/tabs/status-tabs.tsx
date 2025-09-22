@@ -1,9 +1,7 @@
 'use client';
 
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useTasks } from '@/context/tasks';
 import { useStatusParam } from '@/hooks/use-status-param';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import { statusToColor } from '@/lib/colors';

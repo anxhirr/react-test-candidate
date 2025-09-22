@@ -54,47 +54,49 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 					)}
 				/>
 
-				<FormField
-					control={form.control}
-					name="title"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Title</FormLabel>
-							<FormControl>
-								<Input placeholder="Enter title" {...field} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<div className="grid grid-cols-3 gap-3">
+					<FormField
+						control={form.control}
+						name="title"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Title</FormLabel>
+								<FormControl>
+									<Input placeholder="Enter title" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<FormField
-					control={form.control}
-					name="category"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Category</FormLabel>
-							<FormControl>
-								<CategorySelect onValueChange={field.onChange} value={field.value} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+					<FormField
+						control={form.control}
+						name="category"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Category</FormLabel>
+								<FormControl>
+									<CategorySelect onValueChange={field.onChange} value={field.value} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
 
-				<FormField
-					control={form.control}
-					name="assignedTo"
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Assign To</FormLabel>
-							<FormControl>
-								<AssignToSelect onValueChange={field.onChange} value={field.value} />
-							</FormControl>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+					<FormField
+						control={form.control}
+						name="assignedTo"
+						render={({ field }) => (
+							<FormItem>
+								<FormLabel>Assign To</FormLabel>
+								<FormControl>
+									<AssignToSelect onValueChange={field.onChange} value={field.value} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
 
 				<FormField
 					control={form.control}
