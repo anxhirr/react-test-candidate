@@ -1,6 +1,6 @@
 'use client';
 
-import React, { CSSProperties } from 'react';
+import React, { CSSProperties, useMemo } from 'react';
 import { ColumnDef, Row, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
 
 // needed for table body level scope DnD setup
@@ -22,6 +22,8 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-ki
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { makeTaskData } from './makeData';
+import { useSearchParams } from 'next/navigation';
+import { useStatusParam } from '@/hooks/use-status-param';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -91,14 +93,20 @@ const columns: ColumnDef<TaskT>[] = [
 
 // Table Component
 function TasksTable() {
+	const status = useStatusParam();
 	const [data, setData] = React.useState(() => makeTaskData(20));
 
-	const dataIds = React.useMemo<UniqueIdentifier[]>(() => data?.map(({ id }) => id), [data]);
+	const filteredData = useMemo(() => {
+		return data.filter((d) => {
+			const statusMatches = d.status === status;
+			return statusMatches;
+		});
+	}, [status, data]);
 
-	const rerender = () => setData(() => makeTaskData(20));
+	const dataIds = React.useMemo<UniqueIdentifier[]>(() => filteredData?.map(({ id }) => id), [filteredData]);
 
 	const table = useReactTable({
-		data,
+		data: filteredData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getRowId: (row) => row.id, //required because row indexes will change
@@ -153,7 +161,6 @@ function TasksTable() {
 						</SortableContext>
 					</tbody>
 				</table>
-				<pre>{JSON.stringify(data, null, 2)}</pre>
 			</div>
 		</DndContext>
 	);

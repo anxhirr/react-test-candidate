@@ -1,17 +1,22 @@
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+'use client';
 
-const STATUS_LIST = ['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELLED', 'COMPLETED'];
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useStatusParam } from '@/hooks/use-status-param';
+import Link from 'next/link';
+
+const STATUS_LIST: TaskT['status'][] = ['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELLED', 'COMPLETED'];
 
 const StatusTabs = () => {
+	const status = useStatusParam();
 	return (
 		<div className="flex w-full max-w-sm flex-col gap-6">
-			<Tabs defaultValue="account">
+			<Tabs defaultValue={status}>
 				<TabsList>
 					{STATUS_LIST.map((status) => {
 						return (
-							<TabsTrigger key={status} value={status}>
-								{status}
-							</TabsTrigger>
+							<Link key={status} href={`?status=${status}`}>
+								<TabsTrigger value={status}>{status}</TabsTrigger>
+							</Link>
 						);
 					})}
 				</TabsList>
