@@ -21,11 +21,12 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-ki
 // needed for row & cell level scope DnD setup
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { makeTaskData } from './makeData';
 import { useStatusParam } from '@/hooks/use-status-param';
 import { Input } from '../ui/input';
 import jsPDF from 'jspdf';
 import * as jsPDFAutotable from 'jspdf-autotable';
+import { NewTaskBtn } from '../buttons';
+import { useTasks } from '@/context/tasks';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -102,21 +103,21 @@ const columns: ColumnDef<TaskT>[] = [
 // Table Component
 function TasksTable() {
 	const status = useStatusParam();
-	const [data, setData] = React.useState(() => makeTaskData(20));
+	const { tasks, swap } = useTasks();
 
-	const filteredData = useMemo(() => {
-		return data.filter((d) => {
+	const filteredTasks = useMemo(() => {
+		return tasks.filter((d) => {
 			const statusMatches = d.status === status;
 			return statusMatches;
 		});
-	}, [status, data]);
+	}, [status, tasks]);
 
-	const dataIds = React.useMemo<UniqueIdentifier[]>(() => filteredData?.map(({ id }) => id), [filteredData]);
+	const dataIds = React.useMemo<UniqueIdentifier[]>(() => filteredTasks?.map(({ id }) => id), [filteredTasks]);
 
 	const [globalFilter, setGlobalFilter] = useState('');
 
 	const table = useReactTable({
-		data: filteredData,
+		data: filteredTasks,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
 		getFilteredRowModel: getFilteredRowModel(),
@@ -130,11 +131,9 @@ function TasksTable() {
 	function handleDragEnd(event: DragEndEvent) {
 		const { active, over } = event;
 		if (active && over && active.id !== over.id) {
-			setData((data) => {
-				const oldIndex = dataIds.indexOf(active.id);
-				const newIndex = dataIds.indexOf(over.id);
-				return arrayMove(data, oldIndex, newIndex); //this is just a splice util
-			});
+			const oldIdx = dataIds.indexOf(active.id);
+			const newIdx = dataIds.indexOf(over.id);
+			swap({ newIdx, oldIdx });
 		}
 	}
 
@@ -182,7 +181,7 @@ function TasksTable() {
 					placeholder="Search all columns..."
 				/>
 				<button onClick={handleExportPdf}>Export to PDF</button>
-
+				<NewTaskBtn />
 				<table>
 					<thead>
 						{table.getHeaderGroups().map((headerGroup) => (

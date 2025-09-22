@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import { nanoid } from 'nanoid';
 
 const range = (len: number) => {
 	const arr: number[] = [];
@@ -13,16 +14,13 @@ const newTask = (): TaskT => {
 		assignedTo: faker.person.fullName(),
 		status: faker.helpers.shuffle<TaskT['status']>(['CACELLED', 'COMPLETED', 'IN_PROGRESS', 'NEW', 'ON_HOLD'])[0]!,
 		id: faker.string.uuid(),
-		// title: faker.lorem.text(),
-		// category: faker.lorem.text(),
-		// notes: faker.lorem.text(),
-		title: 'title',
-		category: 'category',
-		notes: 'notes',
+		title: `title ${nanoid()}`,
+		category: `category ${nanoid()}`,
+		notes: `notes ${nanoid()}`,
 	};
 };
 
-export function makeTaskData(...lens: number[]) {
+function makeTaskData(...lens: number[]) {
 	const makeDataLevel = (depth = 0): TaskT[] => {
 		const len = lens[depth]!;
 		return range(len).map((_d): TaskT => {
@@ -32,3 +30,5 @@ export function makeTaskData(...lens: number[]) {
 
 	return makeDataLevel();
 }
+
+export { makeTaskData };

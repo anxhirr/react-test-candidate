@@ -1,0 +1,53 @@
+'use client';
+
+import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import { TaskFrom } from '../forms';
+import { useTasks } from '@/context/tasks';
+import { nanoid } from 'nanoid';
+import { useState } from 'react';
+
+const NewTaskBtn = () => {
+	const { addTask } = useTasks();
+	const [isOpen, setIsOpen] = useState(false);
+	return (
+		<>
+			<Dialog open={isOpen} onOpenChange={setIsOpen}>
+				<DialogTrigger>
+					<Button variant="outline">Create new task</Button>
+				</DialogTrigger>
+				<DialogContent>
+					<DialogHeader>
+						<DialogTitle>New task</DialogTitle>
+						<DialogDescription>Create your Task here</DialogDescription>
+					</DialogHeader>
+					<TaskFrom
+						onValid={(values) => {
+							console.log('values', values);
+							addTask({
+								...values,
+								id: nanoid(),
+							});
+							setIsOpen(false);
+						}}
+					/>
+					{/* <DialogFooter>
+						<DialogClose asChild>
+							<Button variant="outline">Cancel</Button>
+						</DialogClose>
+						<Button type="submit">Save changes</Button>
+					</DialogFooter> */}
+				</DialogContent>
+			</Dialog>
+		</>
+	);
+};
+
+export { NewTaskBtn };
