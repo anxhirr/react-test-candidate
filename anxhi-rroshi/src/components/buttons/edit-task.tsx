@@ -36,6 +36,7 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 						<DialogDescription>Create your Task here</DialogDescription>
 					</DialogHeader>
 					<TaskFrom
+						onClose={() => setIsOpen(false)}
 						defaultValues={data}
 						onValid={(values) => {
 							updateTask({

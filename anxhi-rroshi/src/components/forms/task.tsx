@@ -11,17 +11,19 @@ import { Input } from '@/components/ui/input';
 import { AssignToSelect, CategorySelect, StatusSelect } from '../selects';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
+import { CheckIcon, XIcon } from 'lucide-react';
 
 const formSchema = taskSchema.omit({ id: true });
 
 type FormSchemaT = z.infer<typeof formSchema>;
 
 type Props = {
+	onClose: () => void;
 	defaultValues: Partial<FormSchemaT> | null;
 	onValid: (values: FormSchemaT) => void;
 };
 
-const TaskFrom = ({ defaultValues, onValid }: Props) => {
+const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 	const status = useStatusParam();
 	const form = useForm<FormSchemaT>({
 		resolver: zodResolver(formSchema),
@@ -98,7 +100,7 @@ const TaskFrom = ({ defaultValues, onValid }: Props) => {
 					control={form.control}
 					name="notes"
 					render={({ field }) => (
-						<FormItem>
+						<FormItem className="mb-16">
 							<FormLabel>Notes</FormLabel>
 							<FormControl>
 								<ReactQuill theme="snow" value={field.value} onChange={field.onChange} />
@@ -108,7 +110,17 @@ const TaskFrom = ({ defaultValues, onValid }: Props) => {
 					)}
 				/>
 
-				<Button type="submit">Submit</Button>
+				<div className="flex justify-between">
+					<Button type="button" variant="destructive" onClick={() => onClose()}>
+						Close and dont save
+						<XIcon />
+					</Button>
+
+					<Button type="submit">
+						Save
+						<CheckIcon />
+					</Button>
+				</div>
 			</form>
 		</Form>
 	);

@@ -33,6 +33,7 @@ const NewTaskBtn = () => {
 						<DialogDescription>Create your Task here</DialogDescription>
 					</DialogHeader>
 					<TaskFrom
+						onClose={() => setIsOpen(false)}
 						defaultValues={null}
 						onValid={(values) => {
 							addTask({
