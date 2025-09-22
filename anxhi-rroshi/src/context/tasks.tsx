@@ -7,6 +7,7 @@ import { createContext, PropsWithChildren, useContext, useState } from 'react';
 type ContextT = {
 	tasks: TaskT[];
 	addTask: (data: TaskT) => void;
+	updateTask: (data: TaskT) => void;
 	swap: (data: { oldIdx: number; newIdx: number }) => void;
 	deleteTask: (id: string) => void;
 };
@@ -14,6 +15,7 @@ type ContextT = {
 const DEFAULT_VALUES: ContextT = {
 	tasks: makeTaskData(20),
 	addTask: () => {},
+	updateTask: () => {},
 	swap: () => {},
 	deleteTask: () => {},
 };
@@ -26,6 +28,22 @@ const TasksProvider = (props: PropsWithChildren) => {
 	const addTask = (data: TaskT) => {
 		console.log('data', data);
 		setTasks((prev) => [...prev, data]);
+	};
+
+	const updateTask = (data: TaskT) => {
+		console.log('data', data);
+		setTasks((prev) =>
+			prev.map((task) => {
+				const found = task.id === data.id;
+
+				if (!found) return task;
+
+				return {
+					prev,
+					...data,
+				};
+			})
+		);
 	};
 
 	const swap: ContextT['swap'] = ({ newIdx, oldIdx }) => {
@@ -48,6 +66,7 @@ const TasksProvider = (props: PropsWithChildren) => {
 				addTask,
 				swap,
 				deleteTask,
+				updateTask,
 			}}
 		>
 			{props.children}

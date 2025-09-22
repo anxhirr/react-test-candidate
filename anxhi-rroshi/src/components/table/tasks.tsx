@@ -33,7 +33,7 @@ import { useStatusParam } from '@/hooks/use-status-param';
 import { Input } from '../ui/input';
 import jsPDF from 'jspdf';
 import * as jsPDFAutotable from 'jspdf-autotable';
-import { DeleteTaskBtn, NewTaskBtn } from '../buttons';
+import { DeleteTaskBtn, EditTaskBtn, NewTaskBtn } from '../buttons';
 import { useTasks } from '@/context/tasks';
 
 // Cell Component
@@ -76,11 +76,11 @@ const DraggableRow = ({ row }: { row: Row<TaskT> }) => {
 
 const Actions = (props: CellContext<TaskT, unknown>) => {
 	const id = props.row.getValue('id') as string; // TODO: is there a better way to get the id?
-	console.log('id', id);
 	return (
-		<>
+		<div className="flex gap-3">
+			<EditTaskBtn id={id} />
 			<DeleteTaskBtn id={id} />
-		</>
+		</div>
 	);
 };
 

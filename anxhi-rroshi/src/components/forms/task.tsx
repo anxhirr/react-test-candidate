@@ -14,7 +14,12 @@ const formSchema = taskSchema.omit({ id: true });
 
 type FormSchemaT = z.infer<typeof formSchema>;
 
-const TaskFrom = ({ onValid }: { onValid: (values: FormSchemaT) => void }) => {
+type Props = {
+	defaultValues: Partial<FormSchemaT> | null;
+	onValid: (values: FormSchemaT) => void;
+};
+
+const TaskFrom = ({ defaultValues, onValid }: Props) => {
 	const status = useStatusParam();
 	const form = useForm<FormSchemaT>({
 		resolver: zodResolver(formSchema),
@@ -24,6 +29,7 @@ const TaskFrom = ({ onValid }: { onValid: (values: FormSchemaT) => void }) => {
 			notes: '',
 			status, // match the current active tab
 			title: '',
+			...defaultValues,
 		},
 	});
 
