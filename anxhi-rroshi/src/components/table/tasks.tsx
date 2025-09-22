@@ -136,6 +136,16 @@ const columns: ColumnDef<TaskT>[] = [
 	{
 		accessorKey: 'notes',
 		header: 'Notes',
+		cell: (table) => {
+			const value = table.row.getValue('notes') as string;
+			return (
+				<div
+					dangerouslySetInnerHTML={{
+						__html: value,
+					}}
+				/>
+			);
+		},
 	},
 	{
 		id: 'actions',
