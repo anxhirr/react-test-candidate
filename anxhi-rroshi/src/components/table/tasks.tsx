@@ -1,7 +1,7 @@
 'use client';
 
-import React, { CSSProperties, useMemo } from 'react';
-import { ColumnDef, Row, flexRender, getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import React, { CSSProperties, useMemo, useState } from 'react';
+import { ColumnDef, Row, flexRender, getCoreRowModel, getFilteredRowModel, useReactTable } from '@tanstack/react-table';
 
 // needed for table body level scope DnD setup
 import {
@@ -22,8 +22,8 @@ import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-ki
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { makeTaskData } from './makeData';
-import { useSearchParams } from 'next/navigation';
 import { useStatusParam } from '@/hooks/use-status-param';
+import { Input } from '../ui/input';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -105,14 +105,17 @@ function TasksTable() {
 
 	const dataIds = React.useMemo<UniqueIdentifier[]>(() => filteredData?.map(({ id }) => id), [filteredData]);
 
+	const [globalFilter, setGlobalFilter] = useState('');
+
 	const table = useReactTable({
 		data: filteredData,
 		columns,
 		getCoreRowModel: getCoreRowModel(),
+		getFilteredRowModel: getFilteredRowModel(),
 		getRowId: (row) => row.id, //required because row indexes will change
-		debugTable: true,
-		debugHeaders: true,
-		debugColumns: true,
+		state: {
+			globalFilter,
+		},
 	});
 
 	// reorder rows after drag & drop
@@ -139,6 +142,12 @@ function TasksTable() {
 		>
 			<div className="p-2">
 				<div className="h-4" />
+				<Input
+					type="text"
+					value={globalFilter ?? ''}
+					onChange={(e) => setGlobalFilter(e.target.value)}
+					placeholder="Search all columns..."
+				/>
 				<table>
 					<thead>
 						{table.getHeaderGroups().map((headerGroup) => (
