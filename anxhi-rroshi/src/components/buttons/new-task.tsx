@@ -13,6 +13,7 @@ import { TaskFrom } from '../forms';
 import { useTasks } from '@/context/tasks';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
+import { PlusIcon } from 'lucide-react';
 
 const NewTaskBtn = () => {
 	const { addTask } = useTasks();
@@ -21,7 +22,10 @@ const NewTaskBtn = () => {
 		<>
 			<Dialog open={isOpen} onOpenChange={setIsOpen}>
 				<DialogTrigger>
-					<Button variant="outline">Create new task</Button>
+					<Button>
+						<PlusIcon />
+						Create new task
+					</Button>
 				</DialogTrigger>
 				<DialogContent>
 					<DialogHeader>
@@ -29,6 +33,7 @@ const NewTaskBtn = () => {
 						<DialogDescription>Create your Task here</DialogDescription>
 					</DialogHeader>
 					<TaskFrom
+						defaultValues={null}
 						onValid={(values) => {
 							console.log('values', values);
 							addTask({

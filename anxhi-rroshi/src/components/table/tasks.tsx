@@ -37,7 +37,7 @@ import { DeleteTaskBtn, EditTaskBtn, NewTaskBtn } from '../buttons';
 import { useTasks } from '@/context/tasks';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../ui/table';
 import { Button } from '../ui/button';
-import { GripIcon } from 'lucide-react';
+import { FileDown, FileDownIcon, GripIcon } from 'lucide-react';
 
 // Cell Component
 const RowDragHandleCell = ({ rowId }: { rowId: string }) => {
@@ -91,6 +91,7 @@ const columns: ColumnDef<TaskT>[] = [
 	// Create a dedicated drag handle column. Alternatively, you could just set up dnd events on the rows themselves.
 	{
 		id: 'drag-handle',
+		header: '',
 		cell: ({ row }) => <RowDragHandleCell rowId={row.id} />,
 		size: 60,
 	},
@@ -120,6 +121,7 @@ const columns: ColumnDef<TaskT>[] = [
 	},
 	{
 		id: 'actions',
+		header: '',
 		cell: Actions,
 	},
 ];
@@ -183,7 +185,7 @@ function TasksTable() {
 		});
 
 		// Save the PDF
-		doc.save('tanstack-table.pdf');
+		doc.save('Tasks.pdf');
 	};
 
 	const sensors = useSensors(useSensor(MouseSensor, {}), useSensor(TouchSensor, {}), useSensor(KeyboardSensor, {}));
@@ -197,15 +199,20 @@ function TasksTable() {
 			sensors={sensors}
 		>
 			<div className="p-2">
-				<div className="h-4" />
-				<Input
-					type="text"
-					value={globalFilter ?? ''}
-					onChange={(e) => setGlobalFilter(e.target.value)}
-					placeholder="Search all columns..."
-				/>
-				<button onClick={handleExportPdf}>Export to PDF</button>
-				<NewTaskBtn />
+				<div className="flex gap-3">
+					<Input
+						type="text"
+						value={globalFilter ?? ''}
+						onChange={(e) => setGlobalFilter(e.target.value)}
+						placeholder="Search..."
+						className="flex-1"
+					/>
+					<Button onClick={handleExportPdf} variant="secondary">
+						<FileDownIcon />
+						Export to PDF
+					</Button>
+					<NewTaskBtn />
+				</div>
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (
