@@ -14,10 +14,17 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTasks } from '@/context/tasks';
 import { TrashIcon } from 'lucide-react';
-import { toast } from 'sonner';
+import { useMemo } from 'react';
 
 const DeleteTaskBtn = ({ id }: { id: string }) => {
 	const { deleteTask } = useTasks();
+
+	const { tasks } = useTasks();
+
+	const data = useMemo(() => tasks.find((t) => t.id === id), []); // TODO: is this best approach? maybe we can avoid this find here by passing the data as prop
+
+	if (!data) return null;
+
 	return (
 		<AlertDialog>
 			<AlertDialogTrigger asChild>
@@ -36,7 +43,7 @@ const DeleteTaskBtn = ({ id }: { id: string }) => {
 					<AlertDialogCancel>Cancel</AlertDialogCancel>
 					<AlertDialogAction
 						onClick={() => {
-							deleteTask(id);
+							deleteTask(data);
 						}}
 					>
 						Continue

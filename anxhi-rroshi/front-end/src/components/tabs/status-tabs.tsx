@@ -6,21 +6,14 @@ import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import { statusToColor } from '@/lib/colors';
 import { statusToLabel } from '@/lib/labels';
-import { useEffect, useState } from 'react';
-import { getTasksCountByStatus } from '@/query/tasks';
 
 const STATUS_LIST: TaskT['status'][] = ['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELLED', 'COMPLETED'];
 
 const StatusTabs = () => {
 	const router = useRouter();
 	const statusParam = useStatusParam();
-	const [tasksCount, setTasksCount] = useState<Record<TaskT['status'], number>>();
+	const { tasksCount } = useTasks();
 
-	useEffect(() => {
-		getTasksCountByStatus().then((data) => {
-			setTasksCount(data);
-		});
-	}, []);
 	return (
 		<div className="flex gap-3 p-3">
 			{STATUS_LIST.map((status) => {
