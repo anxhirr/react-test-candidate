@@ -8,7 +8,7 @@ import { useTasks } from '@/context/tasks';
 ModuleRegistry.registerModules([AllCommunityModule]);
 
 const columnDefs: ColDef[] = [
-	{ field: 'id', hide: true },
+	{ field: 'id', rowDrag: true },
 	{ field: 'taskNo' },
 	{ field: 'category' },
 	{ field: 'assignedTo' },
@@ -18,11 +18,24 @@ const columnDefs: ColDef[] = [
 ];
 
 const TasksNewTable = () => {
-	const { tasks } = useTasks();
+	const { tasks, swap } = useTasks();
 
 	return (
 		<div className="h-dvh w-full">
-			<AgGridReact rowData={tasks} columnDefs={columnDefs} />
+			<AgGridReact
+				rowData={tasks}
+				columnDefs={columnDefs}
+				onRowDragEnd={(event) => {
+					const {
+						overIndex,
+						node: { data },
+					} = event;
+					swap({
+						newIdx: overIndex,
+						oldIdx: tasks.map(({ id }) => id).indexOf(data.id),
+					});
+				}}
+			/>
 		</div>
 	);
 };
