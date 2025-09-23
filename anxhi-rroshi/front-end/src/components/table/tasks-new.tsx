@@ -47,7 +47,7 @@ const TasksNewTable = () => {
 	}, [statusParam, tasks]);
 
 	return (
-		<div className="h-dvh w-full">
+		<>
 			<div className="flex gap-3 mb-3">
 				<div className="relative w-full flex-1">
 					<SearchIcon className="absolute left-2 top-[50%] translate-y-[-50%]" size={15} />
@@ -56,21 +56,27 @@ const TasksNewTable = () => {
 				<ExportExcelBtn />
 				<NewTaskBtn />
 			</div>
-			<AgGridReact
-				rowData={rowData}
-				columnDefs={columnDefs}
-				onRowDragEnd={(event) => {
-					const {
-						overIndex,
-						node: { data },
-					} = event;
-					swap({
-						newIdx: overIndex,
-						oldIdx: tasks.map(({ id }) => id).indexOf(data.id),
-					});
-				}}
-			/>
-		</div>
+			<div>
+				<AgGridReact
+					rowData={rowData}
+					columnDefs={columnDefs}
+					onRowDragEnd={(event) => {
+						const {
+							overIndex,
+							node: { data },
+						} = event;
+						swap({
+							newIdx: overIndex,
+							oldIdx: tasks.map(({ id }) => id).indexOf(data.id),
+						});
+					}}
+					pagination
+					paginationPageSize={10}
+					paginationPageSizeSelector={[10, 20, 50]}
+					domLayout="autoHeight"
+				/>
+			</div>
+		</>
 	);
 };
 
