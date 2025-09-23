@@ -16,10 +16,9 @@ const StatusSelect = ({ onValueChange, value }: { onValueChange: (value: string)
 
 				const color = statusToColor(status);
 				return (
-					<div className="relative">
+					<div className="relative" key={status}>
 						<button
 							type="button"
-							key={status}
 							onClick={() => {
 								onValueChange(status);
 							}}
