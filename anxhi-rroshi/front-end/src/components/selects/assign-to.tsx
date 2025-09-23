@@ -1,9 +1,10 @@
 'use client';
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { DUMMY_TASKS } from '@/data/dummy';
+import { useTasks } from '@/context/tasks';
 
 const AssignToSelect = ({ onValueChange, value }: { onValueChange: (value: string) => void; value: string }) => {
+	const { tasks } = useTasks();
 	return (
 		<Select onValueChange={onValueChange} defaultValue={value}>
 			<SelectTrigger className="w-full">
@@ -12,7 +13,7 @@ const AssignToSelect = ({ onValueChange, value }: { onValueChange: (value: strin
 				</div>
 			</SelectTrigger>
 			<SelectContent>
-				{DUMMY_TASKS.map((dummyData) => {
+				{tasks.map((dummyData) => {
 					return (
 						<SelectItem key={dummyData.assignedTo} value={dummyData.assignedTo}>
 							{dummyData.assignedTo}

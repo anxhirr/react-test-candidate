@@ -1,8 +1,8 @@
 'use client';
 
-import { DUMMY_TASKS } from '@/data/dummy';
+import { getAllTasks } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
-import { createContext, PropsWithChildren, useContext, useState } from 'react';
+import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 
 type ContextT = {
 	tasks: TaskT[];
@@ -13,7 +13,7 @@ type ContextT = {
 };
 
 const DEFAULT_VALUES: ContextT = {
-	tasks: DUMMY_TASKS,
+	tasks: [],
 	addTask: () => {},
 	updateTask: () => {},
 	swap: () => {},
@@ -54,6 +54,12 @@ const TasksProvider = (props: PropsWithChildren) => {
 	const deleteTask: ContextT['deleteTask'] = (id) => {
 		setTasks((prev) => prev.filter((p) => p.id !== id));
 	};
+
+	useEffect(() => {
+		getAllTasks().then(({ data }) => {
+			setTasks(data);
+		});
+	}, []);
 	return (
 		<Context.Provider
 			value={{
