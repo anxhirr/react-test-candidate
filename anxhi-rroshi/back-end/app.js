@@ -20,13 +20,26 @@ app.use(middlewares);
 app.use(express.json());
 
 app.get('/api/tasks', (req, res) => {
-	const { status } = req.query || {};
+	const { status, search } = req.query || {};
 	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
 	let tasks = dbData.tasks;
 
 	if (status) {
 		tasks = tasks.filter((task) => task.status === status);
 	}
+
+	if (search) {
+		const lowerSearch = search.toLowerCase();
+
+		tasks = tasks.filter((task) => {
+			return Object.entries(task).some(([key, value]) => {
+				if (key === 'id') return false; // dont includ id
+
+				return value.toString().toLowerCase().includes(lowerSearch);
+			});
+		});
+	}
+
 	console.log('tasks', tasks);
 
 	res.json(tasks);

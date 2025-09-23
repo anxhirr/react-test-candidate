@@ -7,8 +7,8 @@ import { useTasks } from '@/context/tasks';
 import { DeleteTaskBtn, EditTaskBtn, ExportExcelBtn, NewTaskBtn } from '../buttons';
 import { SearchIcon } from 'lucide-react';
 import { Input } from '../ui/input';
-import { useStatusParam } from '@/hooks/use-status-param';
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -37,8 +37,10 @@ const columnDefs: ColDef[] = [
 ];
 
 const TasksNewTable = () => {
+	const router = useRouter();
+	const params = useSearchParams();
 	const { tasks, swap } = useTasks();
-	const [quickFilterText, setQuickFilterText] = useState('');
+	const [quickFilterText, setQuickFilterText] = useState(params.get('search') || '');
 
 	return (
 		<div className="p-3">
@@ -49,7 +51,18 @@ const TasksNewTable = () => {
 						type="text"
 						placeholder="Search..."
 						className="max-w-md ps-8"
-						onChange={(e) => setQuickFilterText(e.target.value)}
+						onChange={(e) => {
+							const { value } = e.target;
+							const allParams = new URLSearchParams(params);
+							if (value) {
+								allParams.set('search', value);
+							} else {
+								allParams.delete('search');
+							}
+
+							router.push(`/?${allParams.toString()}`);
+							setQuickFilterText(value);
+						}}
 						value={quickFilterText}
 					/>
 				</div>
@@ -79,7 +92,7 @@ const TasksNewTable = () => {
 					paginationPageSize={10}
 					paginationPageSizeSelector={[10, 20, 50]}
 					domLayout="autoHeight"
-					quickFilterText={quickFilterText}
+					// quickFilterText={quickFilterText}
 				/>
 			</div>
 		</div>

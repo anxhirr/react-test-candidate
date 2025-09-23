@@ -1,5 +1,6 @@
 'use client';
 
+import { useSearchParam } from '@/hooks/use-search-param';
 import { useStatusParam } from '@/hooks/use-status-param';
 import { createTask, getTasks, updateTask, deleteTask as deleteTaskAPI, swapTask } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
@@ -26,6 +27,7 @@ const Context = createContext<ContextT>(DEFAULT_VALUES);
 
 const TasksProvider = (props: PropsWithChildren) => {
 	const statusParam = useStatusParam();
+	const searchParam = useSearchParam();
 	const [tasks, setTasks] = useState(DEFAULT_VALUES.tasks);
 
 	const addTask = async (data: TaskT) => {
@@ -83,10 +85,10 @@ const TasksProvider = (props: PropsWithChildren) => {
 	};
 
 	useEffect(() => {
-		getTasks(statusParam || undefined).then((data) => {
+		getTasks({ status: statusParam || undefined, search: searchParam || undefined }).then((data) => {
 			setTasks(data);
 		});
-	}, [statusParam]);
+	}, [statusParam, searchParam]);
 	return (
 		<Context.Provider
 			value={{

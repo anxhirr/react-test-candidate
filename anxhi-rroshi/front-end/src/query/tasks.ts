@@ -1,8 +1,9 @@
 const API = 'http://localhost:5000/api/tasks';
 
-const getTasks = async (status?: TaskT['status']) => {
+const getTasks = async ({ search, status }: { status?: TaskT['status']; search?: string } = {}) => {
 	const fetchUrl = new URL(API);
 	status && fetchUrl.searchParams.append('status', status);
+	search && fetchUrl.searchParams.append('search', search);
 	const res = await fetch(fetchUrl);
 	const data = await res.json();
 	return data as TaskT[];
