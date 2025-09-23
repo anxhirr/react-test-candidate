@@ -15,7 +15,7 @@ import dynamic from 'next/dynamic';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
-const formSchema = taskSchema.omit({ id: true });
+const formSchema = taskSchema.omit({ id: true, taskNo: true });
 
 type FormSchemaT = z.infer<typeof formSchema>;
 
@@ -41,7 +41,12 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 
 	return (
 		<Form {...form}>
-			<form onSubmit={form.handleSubmit(onValid)} className="space-y-8">
+			<form
+				onSubmit={form.handleSubmit(onValid, (error) => {
+					console.log('error', error);
+				})}
+				className="space-y-8"
+			>
 				<FormField
 					control={form.control}
 					name="status"

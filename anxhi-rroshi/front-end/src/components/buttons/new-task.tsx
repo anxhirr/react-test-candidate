@@ -14,6 +14,7 @@ import { useTasks } from '@/context/tasks';
 import { nanoid } from 'nanoid';
 import { useState } from 'react';
 import { InfoIcon, PlusIcon } from 'lucide-react';
+import { faker } from '@faker-js/faker';
 
 const NewTaskBtn = () => {
 	const { addTask } = useTasks();
@@ -43,8 +44,9 @@ const NewTaskBtn = () => {
 							addTask({
 								...values,
 								id: nanoid(),
+								taskNo: faker.number.int(),
 							});
-							setIsOpen(false);
+							// setIsOpen(false);
 						}}
 					/>
 					{/* <DialogFooter>

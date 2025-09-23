@@ -45,7 +45,8 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 						onValid={(values) => {
 							updateTask({
 								...values,
-								id: data?.id,
+								id: data.id,
+								taskNo: data.taskNo,
 							});
 							setIsOpen(false);
 						}}

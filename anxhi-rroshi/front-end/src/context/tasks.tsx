@@ -1,6 +1,6 @@
 'use client';
 
-import { getAllTasks } from '@/query/tasks';
+import { createTask, getAllTasks } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 
@@ -27,6 +27,7 @@ const TasksProvider = (props: PropsWithChildren) => {
 
 	const addTask = (data: TaskT) => {
 		setTasks((prev) => [...prev, data]);
+		createTask(data);
 	};
 
 	const updateTask = (data: TaskT) => {

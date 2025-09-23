@@ -10,4 +10,19 @@ const getAllTasks = async () => {
 	};
 };
 
-export { getAllTasks };
+const createTask = async (task: TaskT) => {
+	const res = await fetch(API + '/new', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(task),
+	});
+	const data = await res.json();
+	return data as {
+		status: 'success' | 'error';
+		data: TaskT;
+	};
+};
+
+export { getAllTasks, createTask };
