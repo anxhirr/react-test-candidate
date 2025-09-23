@@ -47,8 +47,6 @@ const NewTaskBtn = () => {
 									id: nanoid(),
 									taskNo: faker.number.int(),
 								});
-							} catch (error) {
-								console.error('error', error);
 							} finally {
 								setIsOpen(false);
 							}

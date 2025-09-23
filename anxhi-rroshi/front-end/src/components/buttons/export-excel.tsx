@@ -31,7 +31,6 @@ const ExportExcelBtn = () => {
 			window.URL.revokeObjectURL(url);
 			toast.success('Excel exported successfully');
 		} catch (error) {
-			console.error('Download failed:', error);
 			toast.error('An error happened');
 		}
 	};

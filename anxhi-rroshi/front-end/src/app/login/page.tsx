@@ -8,13 +8,9 @@ export default async function Login() {
 			<LoginFrom
 				onValid={async (data) => {
 					'use server';
-					try {
-						const res = await login(data);
-						const cookiesStore = await cookies();
-						cookiesStore.set('token', res.token);
-					} catch (error) {
-						console.error('error', error);
-					}
+					const res = await login(data);
+					const cookiesStore = await cookies();
+					cookiesStore.set('token', res.token);
 				}}
 			/>
 		</div>

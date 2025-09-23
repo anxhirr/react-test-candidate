@@ -12,6 +12,7 @@ import { AssignToSelect, CategorySelect, StatusSelect } from '../selects';
 import 'react-quill-new/dist/quill.snow.css';
 import { CheckIcon, XIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
+import { toast } from 'sonner';
 
 const ReactQuill = dynamic(() => import('react-quill-new'), { ssr: false });
 
@@ -43,7 +44,7 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onValid, (error) => {
-					console.error('error', error);
+					toast.error('An error happened');
 				})}
 				className="space-y-8"
 			>

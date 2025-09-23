@@ -9,6 +9,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const formSchema = userSchema.omit({ id: true });
 
@@ -37,11 +38,11 @@ const LoginFrom = ({ onValid }: Props) => {
 							await onValid(values);
 							router.refresh();
 						} catch (error) {
-							console.error('error', error);
+							toast.error('An error happened');
 						}
 					},
 					(error) => {
-						console.error('error', error);
+						toast.error('An error happened');
 					}
 				)}
 				className="space-y-8 min-w-md"
@@ -49,7 +50,7 @@ const LoginFrom = ({ onValid }: Props) => {
 				<Card>
 					<CardHeader>
 						<CardTitle>Login to your account</CardTitle>
-						<CardDescription>Enter your email below to login to your account</CardDescription>
+						<CardDescription>Enter your details below to login to your account</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<div>
