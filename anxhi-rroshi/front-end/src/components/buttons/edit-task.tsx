@@ -43,12 +43,17 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 						onClose={() => setIsOpen(false)}
 						defaultValues={data}
 						onValid={(values) => {
-							updateTask({
-								...values,
-								id: data.id,
-								taskNo: data.taskNo,
-							});
-							setIsOpen(false);
+							try {
+								updateTask({
+									...values,
+									id: data.id,
+									taskNo: data.taskNo,
+								});
+							} catch (error) {
+								console.log('error', error);
+							} finally {
+								setIsOpen(false);
+							}
 						}}
 					/>
 					{/* <DialogFooter>
