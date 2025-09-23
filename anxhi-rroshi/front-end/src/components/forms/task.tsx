@@ -43,7 +43,7 @@ const TaskFrom = ({ onClose, defaultValues, onValid }: Props) => {
 		<Form {...form}>
 			<form
 				onSubmit={form.handleSubmit(onValid, (error) => {
-					console.log('error', error);
+					console.error('error', error);
 				})}
 				className="space-y-8"
 			>

@@ -11,4 +11,10 @@ const taskSchema = z.object({
 	status: z.enum(['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELLED', 'COMPLETED']),
 });
 
-export { taskSchema };
+const userSchema = z.object({
+	id: z.uuid(),
+	username: z.string().min(1),
+	password: z.string().min(4),
+});
+
+export { taskSchema, userSchema };

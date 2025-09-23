@@ -50,7 +50,7 @@ const EditTaskBtn = ({ id }: { id: string }) => {
 									taskNo: data.taskNo,
 								});
 							} catch (error) {
-								console.log('error', error);
+								console.error('error', error);
 							} finally {
 								setIsOpen(false);
 							}

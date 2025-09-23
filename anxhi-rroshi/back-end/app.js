@@ -5,15 +5,19 @@ const app = express();
 const cors = require('cors');
 const exceljs = require('exceljs');
 const fs = require('fs');
+const jwt = require('jsonwebtoken');
+// const { authenticateToken } = require('./middleware/auth');
+
 const port = 5000;
 
 const dbPath = path.join(__dirname, 'db.json');
-const router = jsonServer.router(dbPath);
+const dbRouter = jsonServer.router(dbPath);
 const middlewares = jsonServer.defaults();
 
 app.use(cors());
 app.use(middlewares);
-app.use('/api', router);
+app.use(express.json()); // TODO: Does this confict with the router?
+app.use('/api', dbRouter);
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
@@ -40,6 +44,23 @@ app.get('/export-excel', async (req, res) => {
 
 	await workbook.xlsx.write(res);
 	res.end();
+});
+
+app.post('/login', (req, res) => {
+	const { username, password } = req.body;
+
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+
+	const user = dbData.users.find((u) => u.username === username && u.password === password);
+
+	if (!user) {
+		return res.status(401).json({ message: 'Invalid credentials' });
+	}
+
+	const payload = { id: user.id, username: user.username };
+	const token = jwt.sign(payload, 'secret', { expiresIn: '1h' });
+
+	res.json({ token });
 });
 
 app.listen(port, () => {

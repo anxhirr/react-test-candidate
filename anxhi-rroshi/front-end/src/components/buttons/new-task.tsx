@@ -48,7 +48,7 @@ const NewTaskBtn = () => {
 									taskNo: faker.number.int(),
 								});
 							} catch (error) {
-								console.log('error', error);
+								console.error('error', error);
 							} finally {
 								setIsOpen(false);
 							}
