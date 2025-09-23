@@ -20,7 +20,7 @@ app.use(middlewares);
 // app.use('/api', dbRouter);
 app.use(express.json());
 
-app.get('/api/tasks', (req, res) => {
+app.get('/tasks', (req, res) => {
 	const { status, search } = req.query || {};
 	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
 	let tasks = dbData.tasks;
@@ -41,9 +41,57 @@ app.get('/api/tasks', (req, res) => {
 		});
 	}
 
-	console.log('tasks', tasks);
-
 	res.json(tasks);
+});
+
+app.post('/tasks', (req, res) => {
+	const taskData = req.body;
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+
+	dbData.tasks.push(taskData);
+
+	fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+
+	res.json(dbData.tasks);
+});
+
+app.put('/tasks/:id', (req, res) => {
+	const taskData = req.body;
+	const { id } = req.params;
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+
+	const updatedTasks = dbData.tasks.map((dt) => {
+		if (dt.id === id) {
+			console.log('found');
+			return {
+				...dt,
+				...taskData,
+			};
+		}
+		return dt;
+	});
+
+	dbData.tasks = updatedTasks;
+
+	fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+
+	res.json(dbData.tasks);
+});
+
+app.delete('/tasks/:id', (req, res) => {
+	const { id } = req.params;
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+
+	const updatedTasks = dbData.tasks.filter((dt) => {
+		if (dt.id === id) return false;
+		return true;
+	});
+
+	dbData.tasks = updatedTasks;
+
+	fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+
+	res.json(dbData.tasks);
 });
 
 app.post('/swap-tasks', express.json(), (req, res) => {

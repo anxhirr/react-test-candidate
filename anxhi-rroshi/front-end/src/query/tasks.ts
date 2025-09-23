@@ -1,4 +1,4 @@
-const API = 'http://localhost:5000/api/tasks';
+const API = 'http://localhost:5000/tasks';
 
 const getTasks = async ({ search, status }: { status?: TaskT['status']; search?: string } = {}) => {
 	const fetchUrl = new URL(API);

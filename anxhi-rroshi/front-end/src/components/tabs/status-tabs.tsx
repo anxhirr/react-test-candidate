@@ -14,12 +14,10 @@ const STATUS_LIST: TaskT['status'][] = ['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELL
 const StatusTabs = () => {
 	const router = useRouter();
 	const statusParam = useStatusParam();
-	const { tasks } = useTasks();
 	const [tasksCount, setTasksCount] = useState<Record<TaskT['status'], number>>();
 
 	useEffect(() => {
 		getTasksCountByStatus().then((data) => {
-			console.log('data', data);
 			setTasksCount(data);
 		});
 	}, []);
