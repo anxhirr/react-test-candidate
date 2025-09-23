@@ -37,7 +37,6 @@ const DeleteTaskBtn = ({ id }: { id: string }) => {
 					<AlertDialogAction
 						onClick={() => {
 							deleteTask(id);
-							toast('Task deleted successfully');
 						}}
 					>
 						Continue

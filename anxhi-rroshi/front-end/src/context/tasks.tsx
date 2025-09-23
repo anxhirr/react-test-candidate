@@ -3,6 +3,7 @@
 import { createTask, getAllTasks, updateTask, deleteTask as deleteTaskAPI } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 
 type ContextT = {
 	tasks: TaskT[];
@@ -25,25 +26,35 @@ const Context = createContext<ContextT>(DEFAULT_VALUES);
 const TasksProvider = (props: PropsWithChildren) => {
 	const [tasks, setTasks] = useState(DEFAULT_VALUES.tasks);
 
-	const addTask = (data: TaskT) => {
-		setTasks((prev) => [...prev, data]);
-		createTask(data);
+	const addTask = async (data: TaskT) => {
+		try {
+			await createTask(data);
+			setTasks((prev) => [...prev, data]);
+			toast.success('Task deleted successfully');
+		} catch (error) {
+			toast.error('An error happened');
+		}
 	};
 
-	const editTask = (data: TaskT) => {
-		updateTask(data);
-		setTasks((prev) =>
-			prev.map((task) => {
-				const found = task.id === data.id;
+	const editTask = async (data: TaskT) => {
+		try {
+			await updateTask(data);
+			setTasks((prev) =>
+				prev.map((task) => {
+					const found = task.id === data.id;
 
-				if (!found) return task;
+					if (!found) return task;
 
-				return {
-					prev,
-					...data,
-				};
-			})
-		);
+					return {
+						prev,
+						...data,
+					};
+				})
+			);
+			toast.success('Task updated successfully');
+		} catch (error) {
+			toast.error('An error happened');
+		}
 	};
 
 	const swap: ContextT['swap'] = ({ newIdx, oldIdx }) => {
@@ -53,9 +64,13 @@ const TasksProvider = (props: PropsWithChildren) => {
 		});
 	};
 
-	const deleteTask: ContextT['deleteTask'] = (id) => {
-		setTasks((prev) => prev.filter((p) => p.id !== id));
-		deleteTaskAPI(id);
+	const deleteTask: ContextT['deleteTask'] = async (id) => {
+		try {
+			await deleteTaskAPI(id);
+			setTasks((prev) => prev.filter((p) => p.id !== id));
+		} catch (error) {
+			toast.error('An error happened');
+		}
 	};
 
 	useEffect(() => {

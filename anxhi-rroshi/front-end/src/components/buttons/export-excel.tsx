@@ -3,6 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { useStatusParam } from '@/hooks/use-status-param';
 import { FileDownIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 const ExportExcelBtn = () => {
 	const statusParam = useStatusParam();
@@ -28,8 +29,10 @@ const ExportExcelBtn = () => {
 			link.click();
 			link.remove();
 			window.URL.revokeObjectURL(url);
+			toast.success('Excel exported successfully');
 		} catch (error) {
 			console.error('Download failed:', error);
+			toast.error('An error happened');
 		}
 	};
 	return (

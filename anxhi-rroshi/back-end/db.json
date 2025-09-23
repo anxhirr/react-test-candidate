@@ -8,15 +8,6 @@
   ],
   "tasks": [
     {
-      "title": "title 1",
-      "category": "category 1487130481272173",
-      "assignedTo": "Marcella Gerholds",
-      "notes": "<p>notes 4169986014845342</p>",
-      "status": "ON_HOLD",
-      "id": "43b88fcc-f96b-4805-9dff-d7fb79f7c1e4",
-      "taskNo": 8021241214682237
-    },
-    {
       "title": "title 2",
       "category": "category 6465108205644655sda",
       "assignedTo": "Joe Renners",
@@ -80,7 +71,7 @@
       "taskNo": 5561055822982925
     },
     {
-      "title": "title 8",
+      "title": "New task for Anxhi",
       "category": "category 1002743532677316",
       "assignedTo": "Elmer Ullrich",
       "notes": "<p>notes 1589049186680989</p>",
@@ -512,12 +503,12 @@
       "taskNo": 7949269762555131
     },
     {
+      "title": "asasdadsads",
+      "category": "category 3951299410504902",
       "assignedTo": "Ms. Harriet Nitzsche",
+      "notes": "<p>notes 8084684607312046</p>",
       "status": "COMPLETED",
       "id": "c187037c-c282-4daa-acc0-f45ef6724add",
-      "title": "title 8243555426031095",
-      "category": "category 3951299410504902",
-      "notes": "notes 8084684607312046",
       "taskNo": 8653570424534570
     },
     {
@@ -915,6 +906,15 @@
       "status": "COMPLETED",
       "id": "OYSAFezpx0LrmHMlFTPfk",
       "taskNo": 4113142270100693
+    },
+    {
+      "title": "sadasd",
+      "category": "category 7104214379961984",
+      "assignedTo": "Lynn Pacocha",
+      "notes": "<p>asdsadasdasd</p>",
+      "status": "NEW",
+      "id": "WiJDS18v9XRHXAsrrg3ro",
+      "taskNo": 4945178980496269
     }
   ]
 }
