@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { useTasks } from '@/context/tasks';
 import { TrashIcon } from 'lucide-react';
+import { toast } from 'sonner';
 
 const DeleteTaskBtn = ({ id }: { id: string }) => {
 	const { deleteTask } = useTasks();
@@ -36,6 +37,7 @@ const DeleteTaskBtn = ({ id }: { id: string }) => {
 					<AlertDialogAction
 						onClick={() => {
 							deleteTask(id);
+							toast('Task deleted successfully');
 						}}
 					>
 						Continue

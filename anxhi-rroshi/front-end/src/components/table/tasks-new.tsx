@@ -47,7 +47,7 @@ const TasksNewTable = () => {
 	}, [statusParam, tasks]);
 
 	return (
-		<>
+		<div className="p-3">
 			<div className="flex gap-3 mb-3">
 				<div className="relative w-full flex-1">
 					<SearchIcon className="absolute left-2 top-[50%] translate-y-[-50%]" size={15} />
@@ -88,7 +88,7 @@ const TasksNewTable = () => {
 					quickFilterText={quickFilterText}
 				/>
 			</div>
-		</>
+		</div>
 	);
 };
 

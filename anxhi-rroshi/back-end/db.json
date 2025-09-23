@@ -89,12 +89,12 @@
       "taskNo": 2954004577974957
     },
     {
-      "assignedTo": "Dr. Arturo Emmerich1",
-      "status": "COMPLETED",
-      "id": "3591e459-aa47-489d-99d5-982ce49d3a98",
       "title": "title 9",
       "category": "category 4087375985217497",
-      "notes": "notes 7347407660272860",
+      "assignedTo": "Dr. Arturo Emmerich1",
+      "notes": "<p>notes 7347407660272860</p>",
+      "status": "COMPLETED",
+      "id": "3591e459-aa47-489d-99d5-982ce49d3a98",
       "taskNo": 5529133551228699
     },
     {
@@ -188,15 +188,6 @@
       "taskNo": 3197467066824001
     },
     {
-      "assignedTo": "Mindy Wehner",
-      "status": "CACELLED",
-      "id": "abcec031-f57e-4722-a3ba-47cf7f9fddc7",
-      "title": "title 19",
-      "category": "category 2512336881141185",
-      "notes": "notes 3367552802238876",
-      "taskNo": 6607076758944893
-    },
-    {
       "assignedTo": "Sylvia Mohr-Champlin",
       "status": "ON_HOLD",
       "id": "1d722c1d-3298-4f82-9005-6b932ab96d50",
@@ -267,15 +258,6 @@
       "status": "NEW",
       "id": "49b00545-a52f-4d2f-8211-7b1620ae6d69",
       "taskNo": 6369246262461361
-    },
-    {
-      "assignedTo": "Dorothy Padberg",
-      "status": "CACELLED",
-      "id": "193a9be8-1a64-4ce6-83c8-b43d5c7b8559",
-      "title": "title 5097701545480682",
-      "category": "category 3410511458386124",
-      "notes": "notes 3949895517699598",
-      "taskNo": 8590153781001607
     },
     {
       "assignedTo": "Mr. Hugo Huels",
