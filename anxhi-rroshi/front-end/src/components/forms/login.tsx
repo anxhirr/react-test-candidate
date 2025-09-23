@@ -10,16 +10,18 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { useRouter } from 'next/navigation';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 const formSchema = userSchema.omit({ id: true });
 
 type FormSchemaT = z.infer<typeof formSchema>;
 
 type Props = {
+	isSignup?: boolean;
 	onValid: (values: FormSchemaT) => void;
 };
 
-const LoginFrom = ({ onValid }: Props) => {
+const AuthFrom = ({ isSignup, onValid }: Props) => {
 	const router = useRouter();
 	const form = useForm<FormSchemaT>({
 		resolver: zodResolver(formSchema),
@@ -48,10 +50,17 @@ const LoginFrom = ({ onValid }: Props) => {
 				className="space-y-8 min-w-md"
 			>
 				<Card>
-					<CardHeader>
-						<CardTitle>Login to your account</CardTitle>
-						<CardDescription>Enter your details below to login to your account</CardDescription>
-					</CardHeader>
+					{isSignup ? (
+						<CardHeader>
+							<CardTitle>Sign up</CardTitle>
+							<CardDescription>Enter your details below to create a new account</CardDescription>
+						</CardHeader>
+					) : (
+						<CardHeader>
+							<CardTitle>Login to your account</CardTitle>
+							<CardDescription>Enter your details below to login to your account</CardDescription>
+						</CardHeader>
+					)}
 					<CardContent>
 						<div>
 							<div className="flex flex-col gap-6">
@@ -86,10 +95,25 @@ const LoginFrom = ({ onValid }: Props) => {
 								</div>
 								<div className="flex flex-col gap-3">
 									<Button type="submit" className="w-full">
-										Login
+										{isSignup ? 'Signup' : 'Login'}
 									</Button>
 								</div>
 							</div>
+							{isSignup ? (
+								<div className="mt-4 text-center text-sm">
+									Already have an account?{' '}
+									<Link href="/login" className="underline underline-offset-4">
+										Login
+									</Link>
+								</div>
+							) : (
+								<div className="mt-4 text-center text-sm">
+									Don&apos;t have an account?{' '}
+									<Link href="/signup" className="underline underline-offset-4">
+										Sign up
+									</Link>
+								</div>
+							)}
 						</div>
 					</CardContent>
 				</Card>
@@ -98,4 +122,4 @@ const LoginFrom = ({ onValid }: Props) => {
 	);
 };
 
-export { LoginFrom };
+export { AuthFrom };

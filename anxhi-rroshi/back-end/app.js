@@ -117,6 +117,35 @@ app.post('/login', (req, res) => {
 	res.json({ token });
 });
 
+app.post('/signup', (req, res) => {
+	const { username, password } = req.body;
+
+	if (!username || !password) {
+		return res.status(400).json({ message: 'Username and password are required' });
+	}
+
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+	const existingUser = dbData.users.find((u) => u.username === username);
+
+	if (existingUser) {
+		return res.status(409).json({ message: 'Username already exists' });
+	}
+
+	const newUser = {
+		id: dbData.users.length > 0 ? dbData.users[dbData.users.length - 1].id + 1 : 1,
+		username,
+		password, // Use hashing.
+	};
+
+	dbData.users.push(newUser);
+	fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+
+	const payload = { id: newUser.id, username: newUser.username };
+	const token = jwt.sign(payload, 'secret', { expiresIn: '1h' });
+
+	res.status(201).json({ message: 'Signup successful', token });
+});
+
 app.get('/validate-token', (req, res) => {
 	const authHeader = req.headers['authorization'];
 	const token = authHeader && authHeader.split(' ')[1]; // Expecting: Bearer <token>

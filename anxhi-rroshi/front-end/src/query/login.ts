@@ -13,6 +13,19 @@ const login = async (auth: { username: string; password: string }) => {
 	return data;
 };
 
+const signup = async (auth: { username: string; password: string }) => {
+	const res = await fetch('http://localhost:5000/signup', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(auth),
+	});
+	const data = await res.json();
+	if (!res.ok) throw data;
+	return data;
+};
+
 const validateToken = async (token: string | undefined) => {
 	const res = await fetch('http://localhost:5000/validate-token', {
 		headers: {
@@ -24,4 +37,4 @@ const validateToken = async (token: string | undefined) => {
 	return true;
 };
 
-export { login, validateToken };
+export { login, validateToken, signup };

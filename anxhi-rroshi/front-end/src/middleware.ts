@@ -10,11 +10,14 @@ export async function middleware(request: NextRequest) {
 
 	const isAuthenticated = await validateToken(token?.value);
 
-	if (!isAuthenticated && pathname !== '/login') {
+	const authRoutes = ['/login', '/signup'];
+	const isAtAuthRoutes = authRoutes.includes(pathname);
+
+	if (!isAuthenticated && !isAtAuthRoutes) {
 		return NextResponse.redirect(new URL('/login', request.url));
 	}
 
-	if (isAuthenticated && pathname === '/login') {
+	if (isAuthenticated && isAtAuthRoutes) {
 		return NextResponse.redirect(new URL('/', request.url));
 	}
 
