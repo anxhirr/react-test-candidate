@@ -4,17 +4,34 @@ import { AgGridReact } from 'ag-grid-react';
 import type { ColDef } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { useTasks } from '@/context/tasks';
+import { DeleteTaskBtn, EditTaskBtn } from '../buttons';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
+// TODO: find the right type
+const Actions = (props: any) => {
+	console.log('props', props.value);
+
+	return (
+		<div className="flex gap-3">
+			<EditTaskBtn id={props.value} />
+			<DeleteTaskBtn id={props.value} />
+		</div>
+	);
+};
+
 const columnDefs: ColDef[] = [
-	{ field: 'id', rowDrag: true },
-	{ field: 'taskNo' },
+	{ field: 'taskNo', rowDrag: true },
 	{ field: 'category' },
 	{ field: 'assignedTo' },
 	{ field: 'notes' },
 	{ field: 'status' },
 	{ field: 'title' },
+	{
+		headerName: 'Action',
+		field: 'id',
+		cellRenderer: Actions,
+	},
 ];
 
 const TasksNewTable = () => {
