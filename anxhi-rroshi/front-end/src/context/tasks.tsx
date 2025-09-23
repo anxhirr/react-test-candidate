@@ -45,25 +45,22 @@ const TasksProvider = (props: PropsWithChildren) => {
 	const searchParam = useSearchParam();
 	const [tasks, setTasks] = useState(DEFAULT_VALUES.tasks);
 	const [tasksCount, setTasksCount] = useState<ContextT['tasksCount']>(DEFAULT_VALUES.tasksCount);
+	const [rerender, setRerender] = useState(0);
 
 	useEffect(() => {
 		getTasksCountByStatusAPI().then(setTasksCount);
-	}, []);
+	}, [rerender]);
 
 	useEffect(() => {
 		getTasksAPI({ status: statusParam || undefined, search: searchParam || undefined }).then((data) => {
 			setTasks(data);
 		});
-	}, [statusParam, searchParam]);
+	}, [statusParam, searchParam, rerender]);
 
 	const addTask = async (data: TaskT) => {
 		try {
 			await createTaskAPI(data);
-			setTasks((prev) => [...prev, data]);
-			setTasksCount((prev) => ({
-				...prev,
-				[data.status]: prev[data.status] + 1,
-			}));
+			setRerender((p) => p + 1);
 			toast.success('Task deleted successfully');
 		} catch (error) {
 			toast.error('An error happened');
@@ -73,46 +70,32 @@ const TasksProvider = (props: PropsWithChildren) => {
 	const editTask = async (data: TaskT) => {
 		try {
 			await updateTaskAPI(data);
-			setTasks((prev) =>
-				prev.map((task) => {
-					const found = task.id === data.id;
-
-					if (!found) return task;
-
-					return {
-						prev,
-						...data,
-					};
-				})
-			);
+			setRerender((p) => p + 1);
 			toast.success('Task updated successfully');
 		} catch (error) {
 			toast.error('An error happened');
 		}
 	};
 
-	const swap: ContextT['swap'] = ({ newIdx, oldIdx }) => {
-		const oldId = tasks[oldIdx].id;
-		const newId = tasks[newIdx].id;
-		setTasks((prev) => {
-			// TODO: dont depent on dnd kit lib, use js
-			return arrayMove(prev, oldIdx, newIdx);
-		});
-
-		swapTaskAPI({
-			oldId,
-			newId,
-		});
+	const swap: ContextT['swap'] = async ({ newIdx, oldIdx }) => {
+		try {
+			const oldId = tasks[oldIdx].id;
+			const newId = tasks[newIdx].id;
+			await swapTaskAPI({
+				oldId,
+				newId,
+			});
+			setRerender((p) => p + 1);
+			toast.success('Task swapped successfully');
+		} catch (error) {
+			toast.error('An error happened');
+		}
 	};
 
 	const deleteTask: ContextT['deleteTask'] = async ({ id, status }) => {
 		try {
 			await deleteTaskAPI(id);
-			setTasks((prev) => prev.filter((p) => p.id !== id));
-			setTasksCount((prev) => ({
-				...prev,
-				[status]: prev[status] - 1,
-			}));
+			setRerender((p) => p + 1);
 		} catch (error) {
 			toast.error('An error happened');
 		}
