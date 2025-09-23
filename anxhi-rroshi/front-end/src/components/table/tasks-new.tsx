@@ -61,14 +61,19 @@ const TasksNewTable = () => {
 					rowData={rowData}
 					columnDefs={columnDefs}
 					onRowDragEnd={(event) => {
-						const {
-							overIndex,
-							node: { data },
-						} = event;
-						swap({
-							newIdx: overIndex,
-							oldIdx: tasks.map(({ id }) => id).indexOf(data.id),
-						});
+						const { node, overNode } = event;
+
+						if (!overNode) return;
+
+						const draggedId = node.data.id;
+						const targetId = overNode.data.id;
+
+						const oldIdx = tasks.findIndex((t) => t.id === draggedId);
+						const newIdx = tasks.findIndex((t) => t.id === targetId);
+
+						if (oldIdx === -1 || newIdx === -1) return;
+
+						swap({ oldIdx, newIdx });
 					}}
 					pagination
 					paginationPageSize={10}
