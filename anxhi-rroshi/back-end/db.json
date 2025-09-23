@@ -3,12 +3,7 @@
     {
       "id": 1,
       "username": "test",
-      "password": "test"
-    },
-    {
-      "id": 2,
-      "username": "testi",
-      "password": "test"
+      "password": "$2b$10$bcEVZDCuHqNl1nSHWaxoWuFStZ0hKu9p7Rll2HM0HvwzkgcOBVwga"
     }
   ],
   "tasks": [

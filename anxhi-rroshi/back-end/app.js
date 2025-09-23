@@ -5,6 +5,7 @@ const app = express();
 const cors = require('cors');
 const exceljs = require('exceljs');
 const fs = require('fs');
+const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 // const { authenticateToken } = require('./middleware/auth');
 
@@ -100,24 +101,34 @@ app.get('/export-excel', async (req, res) => {
 	res.end();
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', async (req, res) => {
 	const { username, password } = req.body;
 
 	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-
-	const user = dbData.users.find((u) => u.username === username && u.password === password);
+	const user = dbData.users.find((u) => u.username === username);
 
 	if (!user) {
 		return res.status(401).json({ message: 'Invalid credentials' });
 	}
 
-	const payload = { id: user.id, username: user.username };
-	const token = jwt.sign(payload, 'secret', { expiresIn: '1h' });
+	try {
+		const isMatch = await bcrypt.compare(password, user.password);
 
-	res.json({ token });
+		if (!isMatch) {
+			return res.status(401).json({ message: 'Invalid credentials' });
+		}
+
+		const payload = { id: user.id, username: user.username };
+		const token = jwt.sign(payload, 'secret', { expiresIn: '1h' });
+
+		res.json({ token });
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Internal server error' });
+	}
 });
 
-app.post('/signup', (req, res) => {
+app.post('/signup', async (req, res) => {
 	const { username, password } = req.body;
 
 	if (!username || !password) {
@@ -131,19 +142,26 @@ app.post('/signup', (req, res) => {
 		return res.status(409).json({ message: 'Username already exists' });
 	}
 
-	const newUser = {
-		id: dbData.users.length > 0 ? dbData.users[dbData.users.length - 1].id + 1 : 1,
-		username,
-		password, // Use hashing.
-	};
+	try {
+		const hashedPassword = await bcrypt.hash(password, 10); // 10 salt rounds
 
-	dbData.users.push(newUser);
-	fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
+		const newUser = {
+			id: dbData.users.length > 0 ? dbData.users[dbData.users.length - 1].id + 1 : 1,
+			username,
+			password: hashedPassword,
+		};
 
-	const payload = { id: newUser.id, username: newUser.username };
-	const token = jwt.sign(payload, 'secret', { expiresIn: '1h' });
+		dbData.users.push(newUser);
+		fs.writeFileSync(dbPath, JSON.stringify(dbData, null, 2));
 
-	res.status(201).json({ message: 'Signup successful', token });
+		const payload = { id: newUser.id, username: newUser.username };
+		const token = jwt.sign(payload, 'secret', { expiresIn: '1h' });
+
+		res.status(201).json({ message: 'Signup successful', token });
+	} catch (err) {
+		console.error(err);
+		res.status(500).json({ message: 'Internal server error' });
+	}
 });
 
 app.get('/validate-token', (req, res) => {
