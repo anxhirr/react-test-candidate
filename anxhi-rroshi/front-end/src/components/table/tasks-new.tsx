@@ -5,11 +5,10 @@ import type { ColDef } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { useTasks } from '@/context/tasks';
 import { DeleteTaskBtn, EditTaskBtn, ExportExcelBtn, NewTaskBtn } from '../buttons';
-import { FileDownIcon, SearchIcon } from 'lucide-react';
+import { SearchIcon } from 'lucide-react';
 import { Input } from '../ui/input';
-import { Button } from '../ui/button';
 import { useStatusParam } from '@/hooks/use-status-param';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -40,6 +39,7 @@ const columnDefs: ColDef[] = [
 const TasksNewTable = () => {
 	const statusParam = useStatusParam();
 	const { tasks, swap } = useTasks();
+	const [quickFilterText, setQuickFilterText] = useState('');
 
 	const rowData = useMemo(() => {
 		if (!statusParam) return tasks;
@@ -51,7 +51,13 @@ const TasksNewTable = () => {
 			<div className="flex gap-3 mb-3">
 				<div className="relative w-full flex-1">
 					<SearchIcon className="absolute left-2 top-[50%] translate-y-[-50%]" size={15} />
-					<Input type="text" placeholder="Search..." className="max-w-md ps-8" />
+					<Input
+						type="text"
+						placeholder="Search..."
+						className="max-w-md ps-8"
+						onChange={(e) => setQuickFilterText(e.target.value)}
+						value={quickFilterText}
+					/>
 				</div>
 				<ExportExcelBtn />
 				<NewTaskBtn />
@@ -79,6 +85,7 @@ const TasksNewTable = () => {
 					paginationPageSize={10}
 					paginationPageSizeSelector={[10, 20, 50]}
 					domLayout="autoHeight"
+					quickFilterText={quickFilterText}
 				/>
 			</div>
 		</>
