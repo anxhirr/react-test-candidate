@@ -1,12 +1,17 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { useStatusParam } from '@/hooks/use-status-param';
 import { FileDownIcon } from 'lucide-react';
 
 const ExportExcelBtn = () => {
+	const statusParam = useStatusParam();
 	const handleDownload = async () => {
 		try {
-			const response = await fetch('http://localhost:5000/export-excel');
+			const fetchUrl = new URL('http://localhost:5000/export-excel');
+			statusParam && fetchUrl.searchParams.append('status', statusParam);
+
+			const response = await fetch(fetchUrl);
 
 			if (!response.ok) {
 				throw new Error('Network response was not ok');

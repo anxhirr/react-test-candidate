@@ -23,21 +23,23 @@ app.get('/', (req, res) => {
 });
 
 app.get('/export-excel', async (req, res) => {
+	const { status } = req.query || {};
 	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
-	const jsonData = dbData.tasks;
+
+	const filteredData = status ? dbData.tasks.filter((d) => d.status === status) : dbData.tasks;
 
 	const workbook = new exceljs.Workbook();
 	const worksheet = workbook.addWorksheet('Tasks');
 
-	if (jsonData.length > 0) {
-		worksheet.columns = Object.keys(jsonData[0]).map((key) => ({
+	if (filteredData.length > 0) {
+		worksheet.columns = Object.keys(filteredData[0]).map((key) => ({
 			header: key.charAt(0).toUpperCase() + key.slice(1),
 			key: key,
 			width: 30,
 		}));
 	}
 
-	worksheet.addRows(jsonData);
+	worksheet.addRows(filteredData);
 
 	res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
 
