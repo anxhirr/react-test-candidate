@@ -9,6 +9,12 @@ const getTasks = async ({ search, status }: { status?: TaskT['status']; search?:
 	return data as TaskT[];
 };
 
+const getTasksCountByStatus = async () => {
+	const res = await fetch('http://localhost:5000/api/task-count-by-status');
+	const data = await res.json();
+	return data as Record<TaskT['status'], number>;
+};
+
 const createTask = async (task: TaskT) => {
 	const res = await fetch(API, {
 		method: 'POST',
@@ -66,4 +72,4 @@ const deleteTask = async (id: string) => {
 	};
 };
 
-export { getTasks, createTask, updateTask, deleteTask, swapTask };
+export { getTasks, createTask, updateTask, deleteTask, swapTask, getTasksCountByStatus };

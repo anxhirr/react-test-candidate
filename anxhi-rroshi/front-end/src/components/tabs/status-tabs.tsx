@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { Button } from '../ui/button';
 import { statusToColor } from '@/lib/colors';
 import { statusToLabel } from '@/lib/labels';
+import { useEffect, useState } from 'react';
+import { getTasksCountByStatus } from '@/query/tasks';
 
 const STATUS_LIST: TaskT['status'][] = ['NEW', 'IN_PROGRESS', 'ON_HOLD', 'CACELLED', 'COMPLETED'];
 
@@ -13,14 +15,20 @@ const StatusTabs = () => {
 	const router = useRouter();
 	const statusParam = useStatusParam();
 	const { tasks } = useTasks();
+	const [tasksCount, setTasksCount] = useState<Record<TaskT['status'], number>>();
+
+	useEffect(() => {
+		getTasksCountByStatus().then((data) => {
+			console.log('data', data);
+			setTasksCount(data);
+		});
+	}, []);
 	return (
 		<div className="flex gap-3 p-3">
 			{STATUS_LIST.map((status) => {
-				const filteredTasks = tasks.filter((d) => {
-					const statusMatches = d.status === status;
-					return statusMatches;
-				});
 				const isActive = statusParam === status;
+
+				const count = tasksCount?.[status] || 0;
 
 				const color = statusToColor(status);
 				return (
@@ -37,7 +45,7 @@ const StatusTabs = () => {
 							backgroundColor: isActive ? color : undefined,
 						}}
 					>
-						<span className="text-4xl">{filteredTasks.length}</span>
+						<span className="text-4xl">{count}</span>
 						<span>{statusToLabel(status)}</span>
 					</Button>
 				);

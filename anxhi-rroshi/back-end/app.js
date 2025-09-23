@@ -185,6 +185,18 @@ app.get('/validate-token', (req, res) => {
 	});
 });
 
+app.get('/api/task-count-by-status', (req, res) => {
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+	const tasks = dbData.tasks;
+
+	const statusCounts = tasks.reduce((acc, task) => {
+		acc[task.status] = (acc[task.status] || 0) + 1;
+		return acc;
+	}, {});
+
+	res.json(statusCounts);
+});
+
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
 });
