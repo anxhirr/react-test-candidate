@@ -18,7 +18,7 @@ const LogoutBtn = () => {
 				}
 			}}
 			variant="outline"
-			className="mt-2"
+			className="m-2"
 		>
 			<LogOutIcon />
 			Logout

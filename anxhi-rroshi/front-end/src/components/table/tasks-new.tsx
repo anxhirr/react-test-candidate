@@ -8,6 +8,8 @@ import { DeleteTaskBtn, EditTaskBtn, ExportExcelBtn, NewTaskBtn } from '../butto
 import { FileDownIcon, SearchIcon } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
+import { useStatusParam } from '@/hooks/use-status-param';
+import { useMemo } from 'react';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -36,7 +38,13 @@ const columnDefs: ColDef[] = [
 ];
 
 const TasksNewTable = () => {
+	const statusParam = useStatusParam();
 	const { tasks, swap } = useTasks();
+
+	const rowData = useMemo(() => {
+		if (!statusParam) return tasks;
+		return tasks.filter((d) => d.status === statusParam);
+	}, [statusParam, tasks]);
 
 	return (
 		<div className="h-dvh w-full">
@@ -49,7 +57,7 @@ const TasksNewTable = () => {
 				<NewTaskBtn />
 			</div>
 			<AgGridReact
-				rowData={tasks}
+				rowData={rowData}
 				columnDefs={columnDefs}
 				onRowDragEnd={(event) => {
 					const {

@@ -6,7 +6,7 @@ import { TasksProvider } from '@/context/tasks';
 export default function Home() {
 	return (
 		<TasksProvider>
-			<div className="flex">
+			<div className="flex justify-between">
 				<StatusTabs />
 				<LogoutBtn />
 			</div>
