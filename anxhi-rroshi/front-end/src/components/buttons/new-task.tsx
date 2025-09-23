@@ -41,12 +41,17 @@ const NewTaskBtn = () => {
 						onClose={() => setIsOpen(false)}
 						defaultValues={null}
 						onValid={(values) => {
-							addTask({
-								...values,
-								id: nanoid(),
-								taskNo: faker.number.int(),
-							});
-							// setIsOpen(false);
+							try {
+								addTask({
+									...values,
+									id: nanoid(),
+									taskNo: faker.number.int(),
+								});
+							} catch (error) {
+								console.log('error', error);
+							} finally {
+								setIsOpen(false);
+							}
 						}}
 					/>
 					{/* <DialogFooter>

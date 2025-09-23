@@ -1,6 +1,6 @@
 'use client';
 
-import { createTask, getAllTasks } from '@/query/tasks';
+import { createTask, getAllTasks, updateTask, deleteTask as deleteTaskAPI } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 
@@ -30,7 +30,8 @@ const TasksProvider = (props: PropsWithChildren) => {
 		createTask(data);
 	};
 
-	const updateTask = (data: TaskT) => {
+	const editTask = (data: TaskT) => {
+		updateTask(data);
 		setTasks((prev) =>
 			prev.map((task) => {
 				const found = task.id === data.id;
@@ -54,10 +55,11 @@ const TasksProvider = (props: PropsWithChildren) => {
 
 	const deleteTask: ContextT['deleteTask'] = (id) => {
 		setTasks((prev) => prev.filter((p) => p.id !== id));
+		deleteTaskAPI(id);
 	};
 
 	useEffect(() => {
-		getAllTasks().then(({ data }) => {
+		getAllTasks().then((data) => {
 			setTasks(data);
 		});
 	}, []);
@@ -68,7 +70,7 @@ const TasksProvider = (props: PropsWithChildren) => {
 				addTask,
 				swap,
 				deleteTask,
-				updateTask,
+				updateTask: editTask,
 			}}
 		>
 			{props.children}
