@@ -1,7 +1,7 @@
 'use client';
 
 import { useStatusParam } from '@/hooks/use-status-param';
-import { createTask, getTasks, updateTask, deleteTask as deleteTaskAPI } from '@/query/tasks';
+import { createTask, getTasks, updateTask, deleteTask as deleteTaskAPI, swapTask } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -60,9 +60,16 @@ const TasksProvider = (props: PropsWithChildren) => {
 	};
 
 	const swap: ContextT['swap'] = ({ newIdx, oldIdx }) => {
+		const oldId = tasks[oldIdx].id;
+		const newId = tasks[newIdx].id;
 		setTasks((prev) => {
 			// TODO: dont depent on dnd kit lib, use js
 			return arrayMove(prev, oldIdx, newIdx);
+		});
+
+		swapTask({
+			oldId,
+			newId,
 		});
 	};
 

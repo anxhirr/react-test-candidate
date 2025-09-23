@@ -24,6 +24,19 @@ const createTask = async (task: TaskT) => {
 	};
 };
 
+const swapTask = async (body: { oldId: string; newId: string }) => {
+	const res = await fetch('http://localhost:5000/swap-tasks', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify(body),
+	});
+	const data = await res.json();
+	if (!res.ok) throw data;
+	return data;
+};
+
 const updateTask = async (task: TaskT) => {
 	const res = await fetch(API + '/' + task.id, {
 		method: 'PUT',
@@ -52,4 +65,4 @@ const deleteTask = async (id: string) => {
 	};
 };
 
-export { getTasks, createTask, updateTask, deleteTask };
+export { getTasks, createTask, updateTask, deleteTask, swapTask };
