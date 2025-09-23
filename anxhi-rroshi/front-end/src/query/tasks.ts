@@ -15,6 +15,7 @@ const createTask = async (task: TaskT) => {
 		body: JSON.stringify(task),
 	});
 	const data = await res.json();
+	if (!res.ok) throw data;
 	return data as {
 		status: 'success' | 'error';
 		data: TaskT;
@@ -30,6 +31,7 @@ const updateTask = async (task: TaskT) => {
 		body: JSON.stringify(task),
 	});
 	const data = await res.json();
+	if (!res.ok) throw data;
 	return data as {
 		status: 'success' | 'error';
 		data: TaskT;
@@ -41,6 +43,7 @@ const deleteTask = async (id: string) => {
 		method: 'DELETE',
 	});
 	const data = await res.json();
+	if (!res.ok) throw data;
 	return data as {
 		status: 'success' | 'error';
 		data: TaskT;

@@ -9,6 +9,7 @@ const login = async (auth: { username: string; password: string }) => {
 		body: JSON.stringify(auth),
 	});
 	const data = await res.json();
+	if (!res.ok) throw data;
 	return data;
 };
 
@@ -19,7 +20,7 @@ const validateToken = async (token: string | undefined) => {
 			Authorization: `Bearer ${token}`,
 		},
 	});
-	if (res.status !== 200) return false;
+	if (!res.ok) return false;
 	return true;
 };
 
