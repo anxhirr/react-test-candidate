@@ -12,4 +12,15 @@ const login = async (auth: { username: string; password: string }) => {
 	return data;
 };
 
-export { login };
+const validateToken = async (token: string | undefined) => {
+	const res = await fetch('http://localhost:5000/validate-token', {
+		headers: {
+			'Content-Type': 'application/json',
+			Authorization: `Bearer ${token}`,
+		},
+	});
+	if (res.status !== 200) return false;
+	return true;
+};
+
+export { login, validateToken };

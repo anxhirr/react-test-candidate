@@ -1,5 +1,6 @@
 import { cookies } from 'next/headers';
 import { NextResponse, NextRequest } from 'next/server';
+import { validateToken } from './query/login';
 
 export async function middleware(request: NextRequest) {
 	const { pathname } = request.nextUrl;
@@ -7,7 +8,7 @@ export async function middleware(request: NextRequest) {
 	const cookiesStore = await cookies();
 	const token = cookiesStore.get('token');
 
-	const isAuthenticated = !!token?.value; // TODO: validate the token
+	const isAuthenticated = await validateToken(token?.value);
 
 	if (!isAuthenticated && pathname !== '/login') {
 		return NextResponse.redirect(new URL('/login', request.url));

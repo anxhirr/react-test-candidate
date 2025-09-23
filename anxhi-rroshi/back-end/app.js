@@ -64,6 +64,27 @@ app.post('/login', express.json(), (req, res) => {
 	res.json({ token });
 });
 
+app.get('/validate-token', (req, res) => {
+	const authHeader = req.headers['authorization'];
+	const token = authHeader && authHeader.split(' ')[1]; // Expecting: Bearer <token>
+
+	if (!token) {
+		return res.status(401).json({
+			message: 'Token is missing',
+		});
+	}
+
+	jwt.verify(token, 'secret', (err, user) => {
+		if (err) {
+			return res.status(403).json({
+				message: 'Token is invalid or expired',
+			});
+		}
+
+		res.json({ message: 'Token is valid', user });
+	});
+});
+
 app.listen(port, () => {
 	console.log(`Example app listening on port ${port}`);
 });
