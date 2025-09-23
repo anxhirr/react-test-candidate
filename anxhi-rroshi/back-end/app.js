@@ -17,6 +17,19 @@ const middlewares = jsonServer.defaults();
 app.use(cors());
 app.use(middlewares);
 app.use('/api', dbRouter);
+app.use(express.json());
+
+app.get('/api/tasks', (req, res) => {
+	const { status } = req.query || {};
+	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
+	let tasks = dbData.tasks;
+
+	if (status) {
+		tasks = tasks.filter((task) => task.status === status);
+	}
+
+	res.json(tasks);
+});
 
 app.get('/', (req, res) => {
 	res.send('Hello World!');
@@ -47,7 +60,7 @@ app.get('/export-excel', async (req, res) => {
 	res.end();
 });
 
-app.post('/login', express.json(), (req, res) => {
+app.post('/login', (req, res) => {
 	const { username, password } = req.body;
 
 	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));

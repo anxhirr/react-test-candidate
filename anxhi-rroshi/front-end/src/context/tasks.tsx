@@ -1,6 +1,7 @@
 'use client';
 
-import { createTask, getAllTasks, updateTask, deleteTask as deleteTaskAPI } from '@/query/tasks';
+import { useStatusParam } from '@/hooks/use-status-param';
+import { createTask, getTasks, updateTask, deleteTask as deleteTaskAPI } from '@/query/tasks';
 import { arrayMove } from '@dnd-kit/sortable';
 import { createContext, PropsWithChildren, useContext, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -24,6 +25,7 @@ const DEFAULT_VALUES: ContextT = {
 const Context = createContext<ContextT>(DEFAULT_VALUES);
 
 const TasksProvider = (props: PropsWithChildren) => {
+	const statusParam = useStatusParam();
 	const [tasks, setTasks] = useState(DEFAULT_VALUES.tasks);
 
 	const addTask = async (data: TaskT) => {
@@ -74,10 +76,10 @@ const TasksProvider = (props: PropsWithChildren) => {
 	};
 
 	useEffect(() => {
-		getAllTasks().then((data) => {
+		getTasks(statusParam || undefined).then((data) => {
 			setTasks(data);
 		});
-	}, []);
+	}, [statusParam]);
 	return (
 		<Context.Provider
 			value={{

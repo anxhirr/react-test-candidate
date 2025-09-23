@@ -1,7 +1,9 @@
 const API = 'http://localhost:5000/api/tasks';
 
-const getAllTasks = async () => {
-	const res = await fetch(API);
+const getTasks = async (status?: TaskT['status']) => {
+	const fetchUrl = new URL(API);
+	status && fetchUrl.searchParams.append('status', status);
+	const res = await fetch(fetchUrl);
 	const data = await res.json();
 	return data as TaskT[];
 };
@@ -50,4 +52,4 @@ const deleteTask = async (id: string) => {
 	};
 };
 
-export { getAllTasks, createTask, updateTask, deleteTask };
+export { getTasks, createTask, updateTask, deleteTask };

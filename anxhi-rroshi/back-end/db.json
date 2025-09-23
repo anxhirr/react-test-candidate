@@ -17,12 +17,12 @@
       "taskNo": 8049821858425868
     },
     {
-      "assignedTo": "Rebecca Gusikowski",
-      "status": "IN_PROGRESS",
-      "id": "6364ece3-398a-456e-b528-a15f199b39ea",
       "title": "title 7",
       "category": "category 1903452041371048",
-      "notes": "notes 6158541683581315",
+      "assignedTo": "Rebecca Gusikowski",
+      "notes": "<p>notes 6158541683581315</p>",
+      "status": "IN_PROGRESS",
+      "id": "6364ece3-398a-456e-b528-a15f199b39ea",
       "taskNo": 6149370624526900
     },
     {
