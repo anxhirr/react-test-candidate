@@ -37,14 +37,8 @@ const columnDefs: ColDef[] = [
 ];
 
 const TasksNewTable = () => {
-	const statusParam = useStatusParam();
 	const { tasks, swap } = useTasks();
 	const [quickFilterText, setQuickFilterText] = useState('');
-
-	const rowData = useMemo(() => {
-		if (!statusParam) return tasks;
-		return tasks.filter((d) => d.status === statusParam);
-	}, [statusParam, tasks]);
 
 	return (
 		<div className="p-3">
@@ -64,7 +58,7 @@ const TasksNewTable = () => {
 			</div>
 			<div>
 				<AgGridReact
-					rowData={rowData}
+					rowData={tasks}
 					columnDefs={columnDefs}
 					onRowDragEnd={(event) => {
 						const { node, overNode } = event;
