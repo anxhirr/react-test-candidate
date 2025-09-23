@@ -4,7 +4,7 @@ import { AgGridReact } from 'ag-grid-react';
 import type { ColDef } from 'ag-grid-community';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 import { useTasks } from '@/context/tasks';
-import { DeleteTaskBtn, EditTaskBtn, NewTaskBtn } from '../buttons';
+import { DeleteTaskBtn, EditTaskBtn, ExportExcelBtn, NewTaskBtn } from '../buttons';
 import { FileDownIcon, SearchIcon } from 'lucide-react';
 import { Input } from '../ui/input';
 import { Button } from '../ui/button';
@@ -45,9 +45,7 @@ const TasksNewTable = () => {
 					<SearchIcon className="absolute left-2 top-[50%] translate-y-[-50%]" size={15} />
 					<Input type="text" placeholder="Search..." className="max-w-md ps-8" />
 				</div>
-				<Button size="icon" variant="secondary" className="text-white">
-					<FileDownIcon />
-				</Button>
+				<ExportExcelBtn />
 				<NewTaskBtn />
 			</div>
 			<AgGridReact
