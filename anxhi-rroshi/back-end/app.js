@@ -16,7 +16,6 @@ const middlewares = jsonServer.defaults();
 
 app.use(cors());
 app.use(middlewares);
-app.use(express.json()); // TODO: Does this confict with the router?
 app.use('/api', dbRouter);
 
 app.get('/', (req, res) => {
@@ -46,7 +45,7 @@ app.get('/export-excel', async (req, res) => {
 	res.end();
 });
 
-app.post('/login', (req, res) => {
+app.post('/login', express.json(), (req, res) => {
 	const { username, password } = req.body;
 
 	const dbData = JSON.parse(fs.readFileSync(dbPath, 'utf-8'));
