@@ -9,6 +9,9 @@ import { SearchIcon } from 'lucide-react';
 import { Input } from '../ui/input';
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
+import { statusToColor } from '@/lib/colors';
+import { statusToLabel } from '@/lib/labels';
+import { Badge } from '../ui/badge';
 
 ModuleRegistry.registerModules([AllCommunityModule]);
 
@@ -22,12 +25,38 @@ const Actions = (props: any) => {
 	);
 };
 
+// TODO: find the right type
+const Status = (props: any) => {
+	const value = props.value;
+	return (
+		<Badge
+			style={{
+				backgroundColor: statusToColor(value),
+			}}
+		>
+			{statusToLabel(value)}
+		</Badge>
+	);
+};
+
+// TODO: find the right type
+const Notes = (props: any) => {
+	const value = props.value;
+	return (
+		<div
+			dangerouslySetInnerHTML={{
+				__html: value,
+			}}
+		/>
+	);
+};
+
 const columnDefs: ColDef[] = [
 	{ field: 'taskNo', rowDrag: true },
 	{ field: 'category' },
 	{ field: 'assignedTo' },
-	{ field: 'notes' },
-	{ field: 'status' },
+	{ field: 'notes', cellRenderer: Notes },
+	{ field: 'status', cellRenderer: Status },
 	{ field: 'title' },
 	{
 		headerName: 'Action',
